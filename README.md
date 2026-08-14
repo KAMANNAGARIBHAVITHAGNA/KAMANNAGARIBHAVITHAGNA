@@ -20,21 +20,6 @@
     <img alt="Grid 4" src="./assets/generated/grid04-repos2.svg" width="100%" style="display:block; margin:0; padding:0;">
   </picture>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/generated/grid05-skills.svg">
-    <source media="(prefers-color-scheme: light)" srcset="./assets/generated/grid05-skills.svg">
-    <img alt="Grid 5" src="./assets/generated/grid05-skills.svg" width="100%" style="display:block; margin:0; padding:0;">
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/generated/grid06-mission.svg">
-    <source media="(prefers-color-scheme: light)" srcset="./assets/generated/grid06-mission.svg">
-    <img alt="Grid 6" src="./assets/generated/grid06-mission.svg" width="100%" style="display:block; margin:0; padding:0;">
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/generated/grid07-aiml.svg">
-    <source media="(prefers-color-scheme: light)" srcset="./assets/generated/grid07-aiml.svg">
-    <img alt="Grid 7" src="./assets/generated/grid07-aiml.svg" width="100%" style="display:block; margin:0; padding:0;">
-  </picture>
-  <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./assets/generated/grid08-contact.svg">
     <source media="(prefers-color-scheme: light)" srcset="./assets/generated/grid08-contact.svg">
     <img alt="Grid 8" src="./assets/generated/grid08-contact.svg" width="100%" style="display:block; margin:0; padding:0;">

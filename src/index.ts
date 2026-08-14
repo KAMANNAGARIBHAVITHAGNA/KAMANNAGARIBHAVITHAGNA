@@ -4,9 +4,6 @@ import {
   generateGrid2, 
   generateGrid3, 
   generateGrid4, 
-  generateGrid5, 
-  generateGrid6, 
-  generateGrid7, 
   generateGrid8, 
   writeSvg 
 } from './generator';
@@ -21,9 +18,6 @@ async function main() {
   writeSvg('grid02-commits.svg', generateGrid2(stats));
   writeSvg('grid03-repos1.svg', generateGrid3(stats));
   writeSvg('grid04-repos2.svg', generateGrid4(stats));
-  writeSvg('grid05-skills.svg', generateGrid5(stats));
-  writeSvg('grid06-mission.svg', generateGrid6());
-  writeSvg('grid07-aiml.svg', generateGrid7());
   writeSvg('grid08-contact.svg', generateGrid8());
 
   console.log('Successfully embedded original images and generated SVGs!');

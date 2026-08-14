@@ -122,35 +122,7 @@ export function generateGrid4(stats: UserStats): string {
   `;
 }
 
-// GRID 5: SKILLS & FRAMEWORKS (Background: Mind Flayer over School)
-export function generateGrid5(stats: UserStats): string {
-  return `
-    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
-      ${getCommonStyles()}
-      ${getBackgroundImage('grid05')}
-    </svg>
-  `;
-}
 
-// GRID 6: THE MISSION (Background: Mind Flayer Upside Down)
-export function generateGrid6(): string {
-  return `
-    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
-      ${getCommonStyles()}
-      ${getBackgroundImage('grid06')}
-    </svg>
-  `;
-}
-
-// GRID 7: AI/ML FOCUS (Background: Demogorgon Jumping)
-export function generateGrid7(): string {
-  return `
-    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
-      ${getCommonStyles()}
-      ${getBackgroundImage('grid07')}
-    </svg>
-  `;
-}
 
 // GRID 8: CONTACT (Background: Steve Harrington)
 export function generateGrid8(): string {
