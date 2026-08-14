@@ -1,128 +1,225 @@
 <svg width="800" height="250" viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg">
       
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&amp;display=swap');
+  
+  <defs>
+    <!-- Sky Gradient -->
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#bae6fd" />
+    </linearGradient>
     
-    .game-text {
-      font-family: 'Luckiest Guy', cursive;
-      fill: #ffffff;
-      letter-spacing: 1px;
+    <!-- Stormy Sky Gradient -->
+    <linearGradient id="stormGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e1b4b" />
+      <stop offset="40%" stop-color="#312e81" />
+      <stop offset="100%" stop-color="#4c1d95" />
+    </linearGradient>
+    
+    <!-- Grass Gradient -->
+    <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#84cc16" />
+      <stop offset="100%" stop-color="#4d7c0f" />
+    </linearGradient>
+
+    <!-- Wood Texture Gradient -->
+    <linearGradient id="woodGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b45309" />
+      <stop offset="50%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#92400e" />
+    </linearGradient>
+
+    <!-- Stone Gradient -->
+    <linearGradient id="stoneGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#475569" />
+    </linearGradient>
+
+    <!-- Shadow Filter -->
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.3" />
+    </filter>
+    
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lilita+One&amp;display=swap');
+    
+    text {
+      font-family: 'Lilita One', sans-serif;
     }
     
     .hud-text {
-      font-family: 'Luckiest Guy', cursive;
       fill: #ffffff;
-      font-size: 16px;
-      text-shadow: 2px 2px 0 #000;
+      font-size: 18px;
+      paint-order: stroke;
+      stroke: #000000;
+      stroke-width: 4px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
     
     .title-text {
-      font-family: 'Luckiest Guy', cursive;
-      font-size: 32px;
       fill: #ffffff;
-      text-shadow: 3px 3px 0 #000;
+      font-size: 40px;
+      paint-order: stroke;
+      stroke: #000000;
+      stroke-width: 8px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
-    @keyframes cloudMove {
-      from { transform: translateX(100%); }
-      to { transform: translateX(-100%); }
+    @keyframes cloudDrift {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
     }
     
-    @keyframes birdBounce {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-3px) scale(1.02); }
+    @keyframes birdHover {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-5px) rotate(2deg); }
     }
     
-    @keyframes bugJiggle {
-      0%, 100% { transform: rotate(0deg); }
-      25% { transform: rotate(-5deg); }
-      75% { transform: rotate(5deg); }
+    @keyframes bossHover {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes lightning {
+      0%, 95%, 100% { opacity: 0; }
+      96%, 98% { opacity: 1; }
+      97% { opacity: 0.5; }
     }
     
-    @keyframes siren {
+    @keyframes alertBlink {
       0%, 100% { fill: #ef4444; opacity: 0.8; }
       50% { fill: #fca5a5; opacity: 0.2; }
     }
-    
-    .animate-cloud { animation: cloudMove 20s linear infinite; }
-    .animate-bird { animation: birdBounce 2s ease-in-out infinite; transform-origin: center; }
-    .animate-bug { animation: bugJiggle 1s ease-in-out infinite; transform-origin: center; }
-    .animate-siren { animation: siren 1s infinite; }
+
+    .animate-cloud { animation: cloudDrift 40s linear infinite; }
+    .animate-bird { animation: birdHover 2s ease-in-out infinite; }
+    .animate-boss { animation: bossHover 3s ease-in-out infinite; }
+    .animate-lightning { animation: lightning 5s infinite; }
+    .animate-alert { animation: alertBlink 1s infinite; }
   </style>
 
-      <rect width="800" height="250" fill="#92400e" />
-      <!-- Planks texture -->
-      <path d="M 0 50 L 800 50 M 0 100 L 800 100 M 0 150 L 800 150 M 0 200 L 800 200" stroke="#78350f" stroke-width="2" />
+      <rect width="800" height="250" fill="#38bdf8" />
+      <g opacity="0.3" filter="url(#glow)">
+        
+  <rect x="100" y="100" width="600" height="150" fill="url(#stoneGrad)" stroke="#334155" stroke-width="3" rx="2" filter="url(#dropShadow)" />
+
+        
+  <g transform="translate(400, 80)">
+    <!-- Body -->
+    <circle cx="0" cy="0" r="16" fill="#84cc16" stroke="#3f6212" stroke-width="2" filter="url(#dropShadow)" />
+    <!-- Eyes -->
+    <circle cx="-6" cy="-4" r="5" fill="#ffffff" />
+    <circle cx="6" cy="-4" r="5" fill="#ffffff" />
+    <circle cx="-6" cy="-4" r="2" fill="#000" />
+    <circle cx="6" cy="-4" r="2" fill="#000" />
+    <!-- Snout -->
+    <ellipse cx="0" cy="6" rx="8" ry="5" fill="#65a30d" stroke="#3f6212" stroke-width="1.5" />
+    <circle cx="-3" cy="5" r="1.5" fill="#3f6212" />
+    <circle cx="3" cy="5" r="1.5" fill="#3f6212" />
+  </g>
+
+      </g>
+
+      <text x="400" y="50" class="title-text" text-anchor="middle">LEVELS COMPLETED</text>
+
       
-      <text x="400" y="50" class="title-text" text-anchor="middle">LEVEL COMPLETE</text>
-      
-      
-      <g transform="translate(110, 120)">
-        <!-- Chains -->
-        <rect x="-40" y="-80" width="4" height="40" fill="#94a3b8" />
-        <rect x="36" y="-80" width="4" height="40" fill="#94a3b8" />
-        <!-- Wood Board -->
-        <rect x="-60" y="-40" width="120" height="90" rx="10" fill="#d97706" stroke="#92400e" stroke-width="4" />
-        <rect x="-50" y="-30" width="100" height="70" rx="5" fill="#fef3c7" opacity="0.3" />
-        
-        <text y="-10" class="game-text" font-size="14" text-anchor="middle" fill="#92400e">MobileHub</text>
-        <text y="35" class="game-text" font-size="12" text-anchor="middle" fill="#15803d">CLEARED!</text>
-        
-        <!-- Stars -->
-        <g transform="translate(0, 0)">
-          <path d="M -30 10 L -25 25 L -10 25 L -20 35 L -15 50 L -30 40 L -45 50 L -40 35 L -50 25 L -35 25 Z" fill="#fbbf24" transform="scale(0.8) translate(15, -10)"/><path d="M 0 10 L 5 25 L 20 25 L 10 35 L 15 50 L 0 40 L -15 50 L -10 35 L -20 25 L -5 25 Z" fill="#fbbf24" transform="scale(0.8) translate(15, -10)"/><path d="M 30 10 L 35 25 L 50 25 L 40 35 L 45 50 L 30 40 L 15 50 L 20 35 L 10 25 L 25 25 Z" fill="#fbbf24" transform="scale(0.8) translate(15, -10)"/>
+        <g transform="translate(50, 90)">
+          <!-- Ropes -->
+          <path d="M 20 -40 L 20 0 M 120 -40 L 120 0" stroke="#451a03" stroke-width="4" stroke-dasharray="2,2" />
+          <!-- Board -->
+          <rect x="0" y="0" width="140" height="120" rx="10" fill="url(#woodGrad)" stroke="#78350f" stroke-width="4" filter="url(#dropShadow)" />
+          <!-- Paper -->
+          <rect x="10" y="10" width="120" height="100" fill="#fef3c7" opacity="0.8" rx="4" />
+          
+          <text x="70" y="40" class="hud-text" fill="#78350f" stroke="none" text-anchor="middle" font-size="18">MobileHub</text>
+          
+          <!-- Stars -->
+          <g transform="translate(25, 60)">
+            <!-- Star 1 -->
+            <path d="M 15 0 L 20 10 L 30 10 L 22 18 L 25 28 L 15 22 L 5 28 L 8 18 L 0 10 L 10 10 Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5" />
+            <!-- Star 2 -->
+            <path d="M 45 -5 L 50 5 L 60 5 L 52 13 L 55 23 L 45 17 L 35 23 L 38 13 L 30 5 L 40 5 Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5" />
+            <!-- Star 3 -->
+            <path d="M 75 0 L 80 10 L 90 10 L 82 18 L 85 28 L 75 22 L 65 28 L 68 18 L 60 10 L 70 10 Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5" />
+          </g>
+          
+          <text x="70" y="100" class="hud-text" fill="#ef4444" stroke="none" text-anchor="middle" font-size="14">CLEAR!</text>
         </g>
-      </g>
-    
-      <g transform="translate(300, 120)">
-        <!-- Chains -->
-        <rect x="-40" y="-80" width="4" height="40" fill="#94a3b8" />
-        <rect x="36" y="-80" width="4" height="40" fill="#94a3b8" />
-        <!-- Wood Board -->
-        <rect x="-60" y="-40" width="120" height="90" rx="10" fill="#d97706" stroke="#92400e" stroke-width="4" />
-        <rect x="-50" y="-30" width="100" height="70" rx="5" fill="#fef3c7" opacity="0.3" />
         
-        <text y="-10" class="game-text" font-size="14" text-anchor="middle" fill="#92400e">Spitch Is.</text>
-        <text y="35" class="game-text" font-size="12" text-anchor="middle" fill="#15803d">CLEARED!</text>
-        
-        <!-- Stars -->
-        <g transform="translate(0, 0)">
-          <path d="M -30 10 L -25 25 L -10 25 L -20 35 L -15 50 L -30 40 L -45 50 L -40 35 L -50 25 L -35 25 Z" fill="#fbbf24" transform="scale(0.8) translate(15, -10)"/><path d="M 0 10 L 5 25 L 20 25 L 10 35 L 15 50 L 0 40 L -15 50 L -10 35 L -20 25 L -5 25 Z" fill="#fbbf24" transform="scale(0.8) translate(15, -10)"/><path d="M 30 10 L 35 25 L 50 25 L 40 35 L 45 50 L 30 40 L 15 50 L 20 35 L 10 25 L 25 25 Z" fill="#475569" transform="scale(0.8) translate(15, -10)"/>
+        <g transform="translate(230, 90)">
+          <!-- Ropes -->
+          <path d="M 20 -40 L 20 0 M 120 -40 L 120 0" stroke="#451a03" stroke-width="4" stroke-dasharray="2,2" />
+          <!-- Board -->
+          <rect x="0" y="0" width="140" height="120" rx="10" fill="url(#woodGrad)" stroke="#78350f" stroke-width="4" filter="url(#dropShadow)" />
+          <!-- Paper -->
+          <rect x="10" y="10" width="120" height="100" fill="#fef3c7" opacity="0.8" rx="4" />
+          
+          <text x="70" y="40" class="hud-text" fill="#78350f" stroke="none" text-anchor="middle" font-size="18">Spitch</text>
+          
+          <!-- Stars -->
+          <g transform="translate(25, 60)">
+            <!-- Star 1 -->
+            <path d="M 15 0 L 20 10 L 30 10 L 22 18 L 25 28 L 15 22 L 5 28 L 8 18 L 0 10 L 10 10 Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5" />
+            <!-- Star 2 -->
+            <path d="M 45 -5 L 50 5 L 60 5 L 52 13 L 55 23 L 45 17 L 35 23 L 38 13 L 30 5 L 40 5 Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5" />
+            <!-- Star 3 -->
+            <path d="M 75 0 L 80 10 L 90 10 L 82 18 L 85 28 L 75 22 L 65 28 L 68 18 L 60 10 L 70 10 Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5" />
+          </g>
+          
+          <text x="70" y="100" class="hud-text" fill="#ef4444" stroke="none" text-anchor="middle" font-size="14">CLEAR!</text>
         </g>
-      </g>
-    
-      <g transform="translate(490, 120)">
-        <!-- Chains -->
-        <rect x="-40" y="-80" width="4" height="40" fill="#94a3b8" />
-        <rect x="36" y="-80" width="4" height="40" fill="#94a3b8" />
-        <!-- Wood Board -->
-        <rect x="-60" y="-40" width="120" height="90" rx="10" fill="#d97706" stroke="#92400e" stroke-width="4" />
-        <rect x="-50" y="-30" width="100" height="70" rx="5" fill="#fef3c7" opacity="0.3" />
         
-        <text y="-10" class="game-text" font-size="14" text-anchor="middle" fill="#92400e">Hope Travel</text>
-        <text y="35" class="game-text" font-size="12" text-anchor="middle" fill="#15803d">CLEARED!</text>
-        
-        <!-- Stars -->
-        <g transform="translate(0, 0)">
-          <path d="M -30 10 L -25 25 L -10 25 L -20 35 L -15 50 L -30 40 L -45 50 L -40 35 L -50 25 L -35 25 Z" fill="#fbbf24" transform="scale(0.8) translate(15, -10)"/><path d="M 0 10 L 5 25 L 20 25 L 10 35 L 15 50 L 0 40 L -15 50 L -10 35 L -20 25 L -5 25 Z" fill="#fbbf24" transform="scale(0.8) translate(15, -10)"/><path d="M 30 10 L 35 25 L 50 25 L 40 35 L 45 50 L 30 40 L 15 50 L 20 35 L 10 25 L 25 25 Z" fill="#fbbf24" transform="scale(0.8) translate(15, -10)"/>
+        <g transform="translate(410, 90)">
+          <!-- Ropes -->
+          <path d="M 20 -40 L 20 0 M 120 -40 L 120 0" stroke="#451a03" stroke-width="4" stroke-dasharray="2,2" />
+          <!-- Board -->
+          <rect x="0" y="0" width="140" height="120" rx="10" fill="url(#woodGrad)" stroke="#78350f" stroke-width="4" filter="url(#dropShadow)" />
+          <!-- Paper -->
+          <rect x="10" y="10" width="120" height="100" fill="#fef3c7" opacity="0.8" rx="4" />
+          
+          <text x="70" y="40" class="hud-text" fill="#78350f" stroke="none" text-anchor="middle" font-size="18">Hope Travel</text>
+          
+          <!-- Stars -->
+          <g transform="translate(25, 60)">
+            <!-- Star 1 -->
+            <path d="M 15 0 L 20 10 L 30 10 L 22 18 L 25 28 L 15 22 L 5 28 L 8 18 L 0 10 L 10 10 Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5" />
+            <!-- Star 2 -->
+            <path d="M 45 -5 L 50 5 L 60 5 L 52 13 L 55 23 L 45 17 L 35 23 L 38 13 L 30 5 L 40 5 Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5" />
+            <!-- Star 3 -->
+            <path d="M 75 0 L 80 10 L 90 10 L 82 18 L 85 28 L 75 22 L 65 28 L 68 18 L 60 10 L 70 10 Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5" />
+          </g>
+          
+          <text x="70" y="100" class="hud-text" fill="#ef4444" stroke="none" text-anchor="middle" font-size="14">CLEAR!</text>
         </g>
-      </g>
-    
-      <g transform="translate(680, 120)">
-        <!-- Chains -->
-        <rect x="-40" y="-80" width="4" height="40" fill="#94a3b8" />
-        <rect x="36" y="-80" width="4" height="40" fill="#94a3b8" />
-        <!-- Wood Board -->
-        <rect x="-60" y="-40" width="120" height="90" rx="10" fill="#d97706" stroke="#92400e" stroke-width="4" />
-        <rect x="-50" y="-30" width="100" height="70" rx="5" fill="#fef3c7" opacity="0.3" />
         
-        <text y="-10" class="game-text" font-size="14" text-anchor="middle" fill="#92400e">AgriIntel</text>
-        <text y="35" class="game-text" font-size="12" text-anchor="middle" fill="#15803d">CLEARED!</text>
-        
-        <!-- Stars -->
-        <g transform="translate(0, 0)">
-          <path d="M -30 10 L -25 25 L -10 25 L -20 35 L -15 50 L -30 40 L -45 50 L -40 35 L -50 25 L -35 25 Z" fill="#fbbf24" transform="scale(0.8) translate(15, -10)"/><path d="M 0 10 L 5 25 L 20 25 L 10 35 L 15 50 L 0 40 L -15 50 L -10 35 L -20 25 L -5 25 Z" fill="#fbbf24" transform="scale(0.8) translate(15, -10)"/><path d="M 30 10 L 35 25 L 50 25 L 40 35 L 45 50 L 30 40 L 15 50 L 20 35 L 10 25 L 25 25 Z" fill="#fbbf24" transform="scale(0.8) translate(15, -10)"/>
+        <g transform="translate(590, 90)">
+          <!-- Ropes -->
+          <path d="M 20 -40 L 20 0 M 120 -40 L 120 0" stroke="#451a03" stroke-width="4" stroke-dasharray="2,2" />
+          <!-- Board -->
+          <rect x="0" y="0" width="140" height="120" rx="10" fill="url(#woodGrad)" stroke="#78350f" stroke-width="4" filter="url(#dropShadow)" />
+          <!-- Paper -->
+          <rect x="10" y="10" width="120" height="100" fill="#fef3c7" opacity="0.8" rx="4" />
+          
+          <text x="70" y="40" class="hud-text" fill="#78350f" stroke="none" text-anchor="middle" font-size="18">AgriIntel</text>
+          
+          <!-- Stars -->
+          <g transform="translate(25, 60)">
+            <!-- Star 1 -->
+            <path d="M 15 0 L 20 10 L 30 10 L 22 18 L 25 28 L 15 22 L 5 28 L 8 18 L 0 10 L 10 10 Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5" />
+            <!-- Star 2 -->
+            <path d="M 45 -5 L 50 5 L 60 5 L 52 13 L 55 23 L 45 17 L 35 23 L 38 13 L 30 5 L 40 5 Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5" />
+            <!-- Star 3 -->
+            <path d="M 75 0 L 80 10 L 90 10 L 82 18 L 85 28 L 75 22 L 65 28 L 68 18 L 60 10 L 70 10 Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5" />
+          </g>
+          
+          <text x="70" y="100" class="hud-text" fill="#ef4444" stroke="none" text-anchor="middle" font-size="14">CLEAR!</text>
         </g>
-      </g>
-    
+        
     </svg>

@@ -1,86 +1,159 @@
-<svg width="800" height="250" viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg">
+<svg width="800" height="300" viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
       
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&amp;display=swap');
+  
+  <defs>
+    <!-- Sky Gradient -->
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#bae6fd" />
+    </linearGradient>
     
-    .game-text {
-      font-family: 'Luckiest Guy', cursive;
-      fill: #ffffff;
-      letter-spacing: 1px;
+    <!-- Stormy Sky Gradient -->
+    <linearGradient id="stormGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e1b4b" />
+      <stop offset="40%" stop-color="#312e81" />
+      <stop offset="100%" stop-color="#4c1d95" />
+    </linearGradient>
+    
+    <!-- Grass Gradient -->
+    <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#84cc16" />
+      <stop offset="100%" stop-color="#4d7c0f" />
+    </linearGradient>
+
+    <!-- Wood Texture Gradient -->
+    <linearGradient id="woodGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b45309" />
+      <stop offset="50%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#92400e" />
+    </linearGradient>
+
+    <!-- Stone Gradient -->
+    <linearGradient id="stoneGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#475569" />
+    </linearGradient>
+
+    <!-- Shadow Filter -->
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.3" />
+    </filter>
+    
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lilita+One&amp;display=swap');
+    
+    text {
+      font-family: 'Lilita One', sans-serif;
     }
     
     .hud-text {
-      font-family: 'Luckiest Guy', cursive;
       fill: #ffffff;
-      font-size: 16px;
-      text-shadow: 2px 2px 0 #000;
+      font-size: 18px;
+      paint-order: stroke;
+      stroke: #000000;
+      stroke-width: 4px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
     
     .title-text {
-      font-family: 'Luckiest Guy', cursive;
-      font-size: 32px;
       fill: #ffffff;
-      text-shadow: 3px 3px 0 #000;
+      font-size: 40px;
+      paint-order: stroke;
+      stroke: #000000;
+      stroke-width: 8px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
-    @keyframes cloudMove {
-      from { transform: translateX(100%); }
-      to { transform: translateX(-100%); }
+    @keyframes cloudDrift {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
     }
     
-    @keyframes birdBounce {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-3px) scale(1.02); }
+    @keyframes birdHover {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-5px) rotate(2deg); }
     }
     
-    @keyframes bugJiggle {
-      0%, 100% { transform: rotate(0deg); }
-      25% { transform: rotate(-5deg); }
-      75% { transform: rotate(5deg); }
+    @keyframes bossHover {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes lightning {
+      0%, 95%, 100% { opacity: 0; }
+      96%, 98% { opacity: 1; }
+      97% { opacity: 0.5; }
     }
     
-    @keyframes siren {
+    @keyframes alertBlink {
       0%, 100% { fill: #ef4444; opacity: 0.8; }
       50% { fill: #fca5a5; opacity: 0.2; }
     }
-    
-    .animate-cloud { animation: cloudMove 20s linear infinite; }
-    .animate-bird { animation: birdBounce 2s ease-in-out infinite; transform-origin: center; }
-    .animate-bug { animation: bugJiggle 1s ease-in-out infinite; transform-origin: center; }
-    .animate-siren { animation: siren 1s infinite; }
+
+    .animate-cloud { animation: cloudDrift 40s linear infinite; }
+    .animate-bird { animation: birdHover 2s ease-in-out infinite; }
+    .animate-boss { animation: bossHover 3s ease-in-out infinite; }
+    .animate-lightning { animation: lightning 5s infinite; }
+    .animate-alert { animation: alertBlink 1s infinite; }
   </style>
 
-      <rect width="800" height="250" fill="#a3e635" />
+      <!-- Map Base -->
+      <rect width="800" height="300" fill="url(#grassGrad)" />
       
-      <!-- Dirt Path -->
-      <path d="M 0 150 Q 150 100 250 150 T 500 120 T 700 180 L 800 180 L 800 250 L 0 250 Z" fill="#d97706" opacity="0.5"/>
-      <path d="M 0 160 Q 150 110 250 160 T 500 130 T 700 190" fill="none" stroke="#fef3c7" stroke-width="4" stroke-dasharray="10,10" opacity="0.8"/>
+      <!-- Winding River -->
+      <path d="M 0 50 Q 200 100 400 50 T 800 150 L 800 200 Q 600 100 400 150 T 0 100 Z" fill="#38bdf8" opacity="0.8" />
+      
+      <!-- Winding Path -->
+      <path d="M 50 250 Q 250 150 400 250 T 750 100" fill="none" stroke="#d97706" stroke-width="20" stroke-linecap="round" filter="url(#dropShadow)" />
+      <path d="M 50 250 Q 250 150 400 250 T 750 100" fill="none" stroke="#fef3c7" stroke-width="4" stroke-dasharray="10, 15" stroke-linecap="round" />
 
-      <text x="400" y="40" class="title-text" text-anchor="middle">WORLD SELECT</text>
-
-      <!-- Location Markers -->
-      <g transform="translate(100, 160)">
-        <rect x="-4" y="-30" width="8" height="30" fill="#92400e" />
-        <circle cx="0" cy="-35" r="15" fill="#ef4444" stroke="#fff" stroke-width="3" />
-        <text y="-60" class="hud-text" text-anchor="middle" font-size="14">W1: MobileHub</text>
+      <!-- Map Elements (Trees & Mountains) -->
+      <path d="M 100 100 L 130 50 L 160 100 Z" fill="#065f46" filter="url(#dropShadow)" />
+      <path d="M 120 110 L 140 70 L 160 110 Z" fill="#047857" filter="url(#dropShadow)" />
+      <path d="M 600 280 L 650 200 L 700 280 Z" fill="#475569" filter="url(#dropShadow)" />
+      
+      <!-- Location 1 -->
+      <g transform="translate(100, 240)">
+        <circle cx="0" cy="0" r="25" fill="#fbbf24" stroke="#b45309" stroke-width="4" filter="url(#dropShadow)" />
+        <text y="5" class="hud-text" text-anchor="middle" font-size="20">1</text>
+        <rect x="-60" y="20" width="120" height="24" rx="4" fill="#1e293b" />
+        <text y="37" class="hud-text" text-anchor="middle" font-size="14">MobileHub</text>
       </g>
-
-      <g transform="translate(300, 160)">
-        <rect x="-4" y="-30" width="8" height="30" fill="#92400e" />
-        <circle cx="0" cy="-35" r="15" fill="#3b82f6" stroke="#fff" stroke-width="3" />
-        <text y="-60" class="hud-text" text-anchor="middle" font-size="14">W2: Spitch Is.</text>
+      
+      <!-- Location 2 -->
+      <g transform="translate(300, 180)">
+        <circle cx="0" cy="0" r="25" fill="#fbbf24" stroke="#b45309" stroke-width="4" filter="url(#dropShadow)" />
+        <text y="5" class="hud-text" text-anchor="middle" font-size="20">2</text>
+        <rect x="-60" y="20" width="120" height="24" rx="4" fill="#1e293b" />
+        <text y="37" class="hud-text" text-anchor="middle" font-size="14">Spitch Is.</text>
       </g>
-
-      <g transform="translate(500, 130)">
-        <rect x="-4" y="-30" width="8" height="30" fill="#92400e" />
-        <circle cx="0" cy="-35" r="15" fill="#f59e0b" stroke="#fff" stroke-width="3" />
-        <text y="-60" class="hud-text" text-anchor="middle" font-size="14">W3: Hope City</text>
+      
+      <!-- Location 3 -->
+      <g transform="translate(500, 250)">
+        <circle cx="0" cy="0" r="25" fill="#fbbf24" stroke="#b45309" stroke-width="4" filter="url(#dropShadow)" />
+        <text y="5" class="hud-text" text-anchor="middle" font-size="20">3</text>
+        <rect x="-60" y="20" width="120" height="24" rx="4" fill="#1e293b" />
+        <text y="37" class="hud-text" text-anchor="middle" font-size="14">Hope City</text>
       </g>
-
-      <!-- Boss Node -->
-      <g transform="translate(700, 190)" class="animate-bird">
-        <rect x="-5" y="-40" width="10" height="40" fill="#475569" />
-        <path d="M 0 -70 L 25 -40 L -25 -40 Z" fill="#ef4444" stroke="#fff" stroke-width="3"/>
-        <text y="-80" class="hud-text" text-anchor="middle" font-size="14" fill="#ef4444">BOSS</text>
+      
+      <!-- Boss Location -->
+      <g transform="translate(730, 90)">
+        <path d="M -30 10 L 0 -30 L 30 10 Z" fill="#ef4444" stroke="#7f1d1d" stroke-width="4" filter="url(#dropShadow)" />
+        <rect x="-60" y="20" width="120" height="24" rx="4" fill="#7f1d1d" />
+        <text y="37" class="hud-text" text-anchor="middle" font-size="14">GATE 2027</text>
+      </g>
+      
+      <!-- Player Marker (Angry Dev Bird Icon) -->
+      <g transform="translate(300, 130)" class="animate-bird">
+        <circle cx="0" cy="0" r="15" fill="#ef4444" stroke="#7f1d1d" stroke-width="3" filter="url(#dropShadow)" />
+        <rect x="-9" y="-6" width="18" height="6" rx="2" fill="#1e293b" />
       </g>
     </svg>
