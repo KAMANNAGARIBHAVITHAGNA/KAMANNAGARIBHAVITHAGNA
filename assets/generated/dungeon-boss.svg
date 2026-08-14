@@ -71,25 +71,29 @@
     </pattern>
   </defs>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Lilita+One&amp;display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Luckiest+Guy&display=swap');
     text { font-family: 'Lilita One', sans-serif; }
     
     .hud-text { fill: #ffffff; font-size: 14px; font-weight: normal; }
     .hud-value { fill: #ffffff; font-size: 16px; font-weight: normal; }
     
     .hero-title { 
-      font-size: 48px; 
+      font-family: 'Luckiest Guy', cursive;
+      font-size: 52px; 
+      fill: #ffffff;
       paint-order: stroke; 
-      stroke: #ffffff; 
-      stroke-width: 6px; 
+      stroke: #000000; 
+      stroke-width: 10px; 
       stroke-linejoin: round; 
+      letter-spacing: 2px;
     }
     .hero-subtitle { 
-      font-size: 18px; 
+      font-family: 'Luckiest Guy', cursive;
+      font-size: 20px; 
       fill: #ffffff; 
       paint-order: stroke; 
       stroke: #000000; 
-      stroke-width: 4px; 
+      stroke-width: 5px; 
       stroke-linejoin: round; 
     }
     

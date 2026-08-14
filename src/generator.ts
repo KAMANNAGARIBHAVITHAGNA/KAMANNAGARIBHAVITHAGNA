@@ -75,25 +75,29 @@ const getCommonStyles = () => `
     </pattern>
   </defs>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Lilita+One&amp;display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Luckiest+Guy&display=swap');
     text { font-family: 'Lilita One', sans-serif; }
     
     .hud-text { fill: #ffffff; font-size: 14px; font-weight: normal; }
     .hud-value { fill: #ffffff; font-size: 16px; font-weight: normal; }
     
     .hero-title { 
-      font-size: 48px; 
+      font-family: 'Luckiest Guy', cursive;
+      font-size: 52px; 
+      fill: #ffffff;
       paint-order: stroke; 
-      stroke: #ffffff; 
-      stroke-width: 6px; 
+      stroke: #000000; 
+      stroke-width: 10px; 
       stroke-linejoin: round; 
+      letter-spacing: 2px;
     }
     .hero-subtitle { 
-      font-size: 18px; 
+      font-family: 'Luckiest Guy', cursive;
+      font-size: 20px; 
       fill: #ffffff; 
       paint-order: stroke; 
       stroke: #000000; 
-      stroke-width: 4px; 
+      stroke-width: 5px; 
       stroke-linejoin: round; 
     }
     
@@ -217,22 +221,6 @@ const W = 1200;
 const H = 400; // Standardized grid size
 
 export function generateSkyScene(stats: UserStats): string {
-  // Rainbow text generation for name
-  const nameChars = "KAMANNAGARI BHAVITHAGNA".split('');
-  const colors = ['url(#textRed)', 'url(#textYellow)', 'url(#textGreen)', 'url(#textBlue)'];
-  let nameSvg = '';
-  
-  let currentX = 250;
-  nameChars.forEach((char, i) => {
-    if (char === ' ') {
-      currentX += 30; // space width
-      return;
-    }
-    const color = colors[i % colors.length];
-    nameSvg += `<text x="${currentX}" y="200" class="hero-title" fill="${color}" filter="url(#textShadow)">${char}</text>`;
-    currentX += 35; // char width
-  });
-
   return `
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
@@ -243,31 +231,33 @@ export function generateSkyScene(stats: UserStats): string {
       ${renderCloud(850, 100, 0.8)}
       ${renderCloud(1150, 80, 1.5)}
 
-      <!-- Rolling Hills (Background) - Adjusted for H=400 -->
+      <!-- Rolling Hills (Background) -->
       <path d="M 0 320 Q 200 250 400 320 T 800 320 T 1200 280 L 1200 400 L 0 400 Z" fill="url(#hillBack)" />
       <path d="M 0 350 Q 250 280 500 350 T 1000 320 T 1200 380 L 1200 400 L 0 400 Z" fill="url(#hillFront)" />
       
       <!-- Ground & Cliff -->
       ${renderDirtGrass(W, 360)}
-      <path d="M 0 240 L 100 240 L 100 400 L 0 400 Z" fill="url(#dirtGrad)" />
-      <path d="M 0 240 L 100 240 L 100 400 L 0 400 Z" fill="url(#dirtTexture)" />
-      <path d="M 0 240 L 100 240 L 100 255 L 0 255 Z" fill="url(#grassGrad)" stroke="#2b5f07" stroke-width="2" />
+      
+      <!-- Left Cliff for Slingshot -->
+      <path d="M 0 300 L 150 300 L 150 400 L 0 400 Z" fill="url(#dirtGrad)" />
+      <path d="M 0 300 L 150 300 L 150 400 L 0 400 Z" fill="url(#dirtTexture)" />
+      <path d="M 0 300 L 150 300 L 150 315 L 0 315 Z" fill="url(#grassGrad)" stroke="#2b5f07" stroke-width="2" />
       
       <!-- Right Fortress Platform -->
-      <path d="M 950 280 L 1200 280 L 1200 400 L 950 400 Z" fill="url(#dirtGrad)" />
-      <path d="M 950 280 L 1200 280 L 1200 400 L 950 400 Z" fill="url(#dirtTexture)" />
-      <path d="M 950 280 L 1200 280 L 1200 295 L 950 295 Z" fill="url(#grassGrad)" stroke="#2b5f07" stroke-width="2" />
+      <path d="M 900 320 L 1200 320 L 1200 400 L 900 400 Z" fill="url(#dirtGrad)" />
+      <path d="M 900 320 L 1200 320 L 1200 400 L 900 400 Z" fill="url(#dirtTexture)" />
+      <path d="M 900 320 L 1200 320 L 1200 335 L 900 335 Z" fill="url(#grassGrad)" stroke="#2b5f07" stroke-width="2" />
       
-      <!-- Slingshot & Bird (Left) -->
-      ${renderSlingshot(50, 240)}
-      ${renderDevBird(10, 195)}
+      <!-- Slingshot & Bird (Left, sitting firmly on the cliff) -->
+      ${renderSlingshot(50, 300)}
+      ${renderDevBird(10, 255)}
 
-      <!-- Center Typography: Mario Theme Style -->
-      ${nameSvg}
-      <text x="600" y="240" class="hero-subtitle" text-anchor="middle">&gt; AI ENGINEER &amp; FULL STACK DEVELOPER &lt;</text>
+      <!-- Center Typography: Angry Birds Style -->
+      <text x="600" y="200" class="hero-title" text-anchor="middle" filter="url(#textShadow)">KAMANNAGARI BHAVITHAGNA</text>
+      <text x="600" y="240" class="hero-subtitle" text-anchor="middle" filter="url(#textShadow)">&gt; AI ENGINEER &amp; FULL STACK DEVELOPER &lt;</text>
 
-      <!-- The Wood Fortress (Right Edge) -->
-      <g transform="translate(1000, 370)">
+      <!-- The Wood Fortress (Right Edge, sitting firmly on platform) -->
+      <g transform="translate(1000, 320)">
         ${renderWoodBlock(0, -40, 40, 40)}
         ${renderWoodBlock(80, -40, 40, 40)}
         ${renderWoodBlock(40, -100, 120, 20)}
@@ -279,20 +269,20 @@ export function generateSkyScene(stats: UserStats): string {
         ${renderBugPig(90, -120)}
       </g>
 
-      <!-- Top HUD (Spread evenly like Mario) -->
-      <g transform="translate(100, 30)">
+      <!-- Top HUD (Spread evenly) -->
+      <g transform="translate(100, 30)" filter="url(#textShadow)">
         <text x="0" y="0" class="hud-label" text-anchor="middle">PLAYER</text>
         <text x="0" y="20" class="hud-value" text-anchor="middle">${stats.name.split(' ')[0].toUpperCase()}</text>
       </g>
-      <g transform="translate(433, 30)">
+      <g transform="translate(433, 30)" filter="url(#textShadow)">
         <text x="0" y="0" class="hud-label" text-anchor="middle">COINS</text>
         <text x="0" y="20" class="hud-value" text-anchor="middle">x${stats.totalStars}</text>
       </g>
-      <g transform="translate(766, 30)">
+      <g transform="translate(766, 30)" filter="url(#textShadow)">
         <text x="0" y="0" class="hud-label" text-anchor="middle">WORLD</text>
         <text x="0" y="20" class="hud-value" text-anchor="middle">${stats.publicRepos}-1</text>
       </g>
-      <g transform="translate(1100, 30)">
+      <g transform="translate(1100, 30)" filter="url(#textShadow)">
         <text x="0" y="0" class="hud-label" text-anchor="middle">TIME</text>
         <text x="0" y="20" class="hud-value" text-anchor="middle">${new Date().getFullYear()}</text>
       </g>
