@@ -1,0 +1,28 @@
+<svg width="1200" height="400" viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1200" height="400" fill="#000" />
+      <!-- Lightning -->
+      <rect width="1200" height="400" fill="#fff" opacity="0">
+        <animate attributeName="opacity" values="0;0;0;0;1;0;0;0;0.5;0" dur="5s" repeatCount="indefinite" />
+      </rect>
+
+      <!-- Grandfather Clock -->
+      <g transform="translate(600, 200)">
+        <rect x="-60" y="-150" width="120" height="300" fill="#292524" stroke="#44403c" stroke-width="5" />
+        <circle cx="0" cy="-80" r="50" fill="#fef3c7" stroke="#b45309" stroke-width="4" />
+        <!-- Clock hands -->
+        <line x1="0" y1="-80" x2="0" y2="-110" stroke="#000" stroke-width="4">
+          <animateTransform attributeName="transform" type="rotate" values="0 0 -80; 360 0 -80" dur="10s" repeatCount="indefinite" />
+        </line>
+        <line x1="0" y1="-80" x2="30" y2="-80" stroke="#000" stroke-width="6">
+          <animateTransform attributeName="transform" type="rotate" values="0 0 -80; 360 0 -80" dur="60s" repeatCount="indefinite" />
+        </line>
+        <!-- Pendulum -->
+        <g>
+          <animateTransform attributeName="transform" type="rotate" values="-15 0 20; 15 0 20; -15 0 20" dur="2s" repeatCount="indefinite" />
+          <line x1="0" y1="20" x2="0" y2="100" stroke="#b45309" stroke-width="6" />
+          <circle cx="0" cy="100" r="20" fill="#fbbf24" />
+        </g>
+      </g>
+      <text x="300" y="200" font-family="'IM Fell English', serif" font-size="40" fill="#ef4444" text-anchor="middle">TIME IS TICKING</text>
+      <text x="900" y="200" font-family="'IM Fell English', serif" font-size="40" fill="#ef4444" text-anchor="middle">GATE 2027</text>
+    </svg>
