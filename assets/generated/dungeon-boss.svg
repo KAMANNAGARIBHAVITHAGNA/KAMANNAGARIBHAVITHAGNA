@@ -35,11 +35,32 @@
       <stop offset="100%" stop-color="#050200" />
     </linearGradient>
     
+    <!-- Text Gradients -->
+    <linearGradient id="textRed" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff4b4b" />
+      <stop offset="100%" stop-color="#c70000" />
+    </linearGradient>
+    <linearGradient id="textYellow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffdf00" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="textGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#70c427" />
+      <stop offset="100%" stop-color="#387a0e" />
+    </linearGradient>
+    <linearGradient id="textBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#56b4f3" />
+      <stop offset="100%" stop-color="#006eb8" />
+    </linearGradient>
+    
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
       <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.3" />
     </filter>
     <filter id="blockShadow" x="-10%" y="-10%" width="120%" height="120%">
       <feDropShadow dx="1" dy="2" stdDeviation="1" flood-opacity="0.5" />
+    </filter>
+    <filter id="textShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="3" dy="3" stdDeviation="0" flood-color="#000" />
     </filter>
     
     <pattern id="dirtTexture" width="60" height="60" patternUnits="userSpaceOnUse">
@@ -53,8 +74,24 @@
     @import url('https://fonts.googleapis.com/css2?family=Lilita+One&amp;display=swap');
     text { font-family: 'Lilita One', sans-serif; }
     
-    .hud-text { fill: #ffffff; font-size: 24px; paint-order: stroke; stroke: #000000; stroke-width: 6px; stroke-linecap: round; stroke-linejoin: round; }
-    .hud-label { fill: #ffffff; font-size: 14px; font-family: Arial, sans-serif; font-weight: bold; }
+    .hud-text { fill: #ffffff; font-size: 14px; font-weight: normal; }
+    .hud-value { fill: #ffffff; font-size: 16px; font-weight: normal; }
+    
+    .hero-title { 
+      font-size: 48px; 
+      paint-order: stroke; 
+      stroke: #ffffff; 
+      stroke-width: 6px; 
+      stroke-linejoin: round; 
+    }
+    .hero-subtitle { 
+      font-size: 18px; 
+      fill: #ffffff; 
+      paint-order: stroke; 
+      stroke: #000000; 
+      stroke-width: 4px; 
+      stroke-linejoin: round; 
+    }
     
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
@@ -65,7 +102,6 @@
 
       <rect width="1200" height="400" fill="url(#dungeonGrad)" />
       
-      <!-- Stone Brick Background Pattern -->
       <pattern id="stone" width="60" height="30" patternUnits="userSpaceOnUse">
         <rect width="60" height="30" fill="none" stroke="#111" stroke-width="2" />
         <rect width="30" height="15" fill="#1a1a1a" />
@@ -73,41 +109,33 @@
       </pattern>
       <rect width="1200" height="400" fill="url(#stone)" opacity="0.3" />
 
-      <text x="600" y="80" class="hud-text" fill="#ff4444" text-anchor="middle">FINAL BOSS: GATE 2027</text>
+      <text x="600" y="80" class="hud-label" font-size="24" fill="#ff4444" text-anchor="middle">FINAL BOSS: GATE 2027</text>
       
-      <!-- Boss Throne -->
       <g transform="translate(600, 300)">
         <rect x="-150" y="-50" width="300" height="50" fill="#222" stroke="#000" stroke-width="4" />
         <rect x="-100" y="-150" width="200" height="100" fill="#333" stroke="#000" stroke-width="4" />
-        <!-- Huge Bug Boss -->
         
   <g transform="translate(0, -100)" class="animate-bounce">
-    <!-- Green Pig Body -->
     <circle cx="0" cy="0" r="50" fill="#78ce12" stroke="#325a03" stroke-width="2" />
-    <!-- Snout -->
     <ellipse cx="0" cy="5" rx="9" ry="6" fill="#9df033" stroke="#325a03" stroke-width="1.5" />
     <circle cx="-3" cy="4" r="2" fill="#325a03" />
     <circle cx="3" cy="4" r="2" fill="#325a03" />
-    <!-- Eyes -->
     <circle cx="-7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
     <circle cx="-6" cy="-3" r="1.5" fill="#000" />
     <circle cx="7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
     <circle cx="6" cy="-3" r="1.5" fill="#000" />
     
     
-    <!-- Bug Headphones -->
     <path d="M -18 0 C -18 -20 18 -20 18 0" fill="none" stroke="#333" stroke-width="3" />
     <rect x="-22" y="-5" width="6" height="12" rx="3" fill="#ff0000" />
     <rect x="16" y="-5" width="6" height="12" rx="3" fill="#ff0000" />
     
   </g>
 
-        <!-- Health Bar -->
         <rect x="-150" y="-200" width="300" height="20" fill="#000" stroke="#fff" stroke-width="2" />
         <rect x="-148" y="-198" width="296" height="16" fill="#ff0000" />
       </g>
       
-      <!-- Trophy Chests -->
       <g transform="translate(200, 300)">
         <path d="M -40 0 L 40 0 L 30 50 L -30 50 Z" fill="#b45309" stroke="#783c07" stroke-width="4" />
         <path d="M -40 0 C -40 -30 40 -30 40 0 Z" fill="#d97706" stroke="#783c07" stroke-width="4" />
