@@ -116,18 +116,25 @@
       <text x="600" y="80" class="hud-label" font-size="24" fill="#ff4444" text-anchor="middle">FINAL BOSS: GATE 2027</text>
       
       <g transform="translate(600, 300)">
+        <animateTransform attributeName="transform" type="translate" values="600,300; 600,290; 600,300" dur="2s" repeatCount="indefinite" additive="sum"/>
         <rect x="-150" y="-50" width="300" height="50" fill="#222" stroke="#000" stroke-width="4" />
         <rect x="-100" y="-150" width="200" height="100" fill="#333" stroke="#000" stroke-width="4" />
         
-  <g transform="translate(0, -100)" class="animate-bounce">
+  <g transform="translate(0, -100)">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 0,-8; 0,0; 0,0" dur="1s" begin="0s" repeatCount="indefinite" additive="sum"/>
     <circle cx="0" cy="0" r="50" fill="#78ce12" stroke="#325a03" stroke-width="2" />
     <ellipse cx="0" cy="5" rx="9" ry="6" fill="#9df033" stroke="#325a03" stroke-width="1.5" />
     <circle cx="-3" cy="4" r="2" fill="#325a03" />
     <circle cx="3" cy="4" r="2" fill="#325a03" />
-    <circle cx="-7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
-    <circle cx="-6" cy="-3" r="1.5" fill="#000" />
-    <circle cx="7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
-    <circle cx="6" cy="-3" r="1.5" fill="#000" />
+    
+    <!-- Blinking Eyes -->
+    <g>
+      <circle cx="-7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
+      <circle cx="-6" cy="-3" r="1.5" fill="#000" />
+      <circle cx="7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
+      <circle cx="6" cy="-3" r="1.5" fill="#000" />
+      <animateTransform attributeName="transform" type="scale" values="1,1; 1,0.1; 1,1; 1,1" dur="3s" begin="0s" repeatCount="indefinite"/>
+    </g>
     
     
     <path d="M -18 0 C -18 -20 18 -20 18 0" fill="none" stroke="#333" stroke-width="3" />
@@ -137,7 +144,9 @@
   </g>
 
         <rect x="-150" y="-200" width="300" height="20" fill="#000" stroke="#fff" stroke-width="2" />
-        <rect x="-148" y="-198" width="296" height="16" fill="#ff0000" />
+        <rect x="-148" y="-198" width="296" height="16" fill="#ff0000">
+          <animate attributeName="opacity" values="1; 0.5; 1" dur="1s" repeatCount="indefinite" />
+        </rect>
       </g>
       
       <g transform="translate(200, 300)">

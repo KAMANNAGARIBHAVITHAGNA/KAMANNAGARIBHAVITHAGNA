@@ -109,8 +109,9 @@ const getCommonStyles = () => `
   </style>
 `;
 
-const renderCloud = (x: number, y: number, scale = 1) => `
+const renderCloud = (x: number, y: number, scale = 1, speed = 40) => `
   <g transform="translate(${x}, ${y}) scale(${scale})">
+    <animateTransform attributeName="transform" type="translate" values="${x},${y}; ${x - 200},${y}; ${x},${y}" dur="${speed}s" repeatCount="indefinite" additive="sum"/>
     <path d="M 0 0 C -20 0 -40 -15 -40 -35 C -40 -60 -20 -70 0 -70 C 5 -90 35 -100 50 -80 C 70 -90 95 -75 95 -50 C 115 -45 125 -20 110 -5 C 120 10 105 25 85 20 C 70 35 30 35 15 20 Z" fill="#ffffff" />
     <circle cx="-15" cy="-35" r="5" fill="#e6f2fa" />
     <circle cx="15" cy="-55" r="8" fill="#e6f2fa" />
@@ -118,8 +119,9 @@ const renderCloud = (x: number, y: number, scale = 1) => `
   </g>
 `;
 
-const renderSunflower = (x: number, y: number, scale = 1) => `
+const renderSunflower = (x: number, y: number, scale = 1, delay = 0) => `
   <g transform="translate(${x}, ${y}) scale(${scale})">
+    <animateTransform attributeName="transform" type="rotate" values="0; 5; 0; -5; 0" dur="4s" begin="${delay}s" repeatCount="indefinite" additive="sum"/>
     <!-- Stem -->
     <path d="M 0 0 Q 5 20 0 50" fill="none" stroke="#609819" stroke-width="4" />
     <path d="M 0 30 Q 15 25 20 15 Q 15 35 0 40" fill="#609819" />
@@ -166,16 +168,22 @@ const renderWoodBlock = (x: number, y: number, w: number, h: number) => `
   </g>
 `;
 
-const renderBugPig = (x: number, y: number, r: number = 18, isDev = false) => `
-  <g transform="translate(${x}, ${y})" class="animate-bounce">
+const renderBugPig = (x: number, y: number, r: number = 18, isDev = false, delay = 0) => `
+  <g transform="translate(${x}, ${y})">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 0,-8; 0,0; 0,0" dur="1s" begin="${delay}s" repeatCount="indefinite" additive="sum"/>
     <circle cx="0" cy="0" r="${r}" fill="#78ce12" stroke="#325a03" stroke-width="2" />
     <ellipse cx="0" cy="5" rx="9" ry="6" fill="#9df033" stroke="#325a03" stroke-width="1.5" />
     <circle cx="-3" cy="4" r="2" fill="#325a03" />
     <circle cx="3" cy="4" r="2" fill="#325a03" />
-    <circle cx="-7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
-    <circle cx="-6" cy="-3" r="1.5" fill="#000" />
-    <circle cx="7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
-    <circle cx="6" cy="-3" r="1.5" fill="#000" />
+    
+    <!-- Blinking Eyes -->
+    <g>
+      <circle cx="-7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
+      <circle cx="-6" cy="-3" r="1.5" fill="#000" />
+      <circle cx="7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
+      <circle cx="6" cy="-3" r="1.5" fill="#000" />
+      <animateTransform attributeName="transform" type="scale" values="1,1; 1,0.1; 1,1; 1,1" dur="3s" begin="${delay}s" repeatCount="indefinite"/>
+    </g>
     
     ${isDev ? `
     <path d="M -18 0 C -18 -20 18 -20 18 0" fill="none" stroke="#333" stroke-width="3" />
@@ -191,24 +199,40 @@ const renderBugPig = (x: number, y: number, r: number = 18, isDev = false) => `
 
 const renderSlingshot = (x: number, y: number) => `
   <g transform="translate(${x}, ${y})">
-    <path d="M -15 -80 L -70 -50" stroke="#4a1803" stroke-width="8" stroke-linecap="round" />
+    <!-- Back Band with stretch animation -->
+    <path d="M -15 -80 L -70 -50" stroke="#4a1803" stroke-width="8" stroke-linecap="round">
+      <animate attributeName="d" values="M -15 -80 L -70 -50; M -15 -80 L -80 -45; M -15 -80 L -70 -50" dur="2s" repeatCount="indefinite" />
+    </path>
     <path d="M 0 0 L 0 -50 L -20 -90 M 0 -50 L 20 -90" fill="none" stroke="#a35712" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
     <path d="M 0 0 L 0 -50 L -20 -90 M 0 -50 L 20 -90" fill="none" stroke="#783c07" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.5" />
-    <path d="M -80 -60 Q -70 -40 -60 -60" fill="none" stroke="#783c07" stroke-width="14" stroke-linecap="round" />
-    <path d="M 15 -80 L -65 -50" stroke="#4a1803" stroke-width="8" stroke-linecap="round" />
+    <!-- Pouch with stretch animation -->
+    <path d="M -80 -60 Q -70 -40 -60 -60" fill="none" stroke="#783c07" stroke-width="14" stroke-linecap="round">
+      <animate attributeName="d" values="M -80 -60 Q -70 -40 -60 -60; M -90 -55 Q -80 -35 -70 -55; M -80 -60 Q -70 -40 -60 -60" dur="2s" repeatCount="indefinite" />
+    </path>
+    <!-- Front Band with stretch animation -->
+    <path d="M 15 -80 L -65 -50" stroke="#4a1803" stroke-width="8" stroke-linecap="round">
+      <animate attributeName="d" values="M 15 -80 L -65 -50; M 15 -80 L -75 -45; M 15 -80 L -65 -50" dur="2s" repeatCount="indefinite" />
+    </path>
   </g>
 `;
 
 const renderDevBird = (x: number, y: number) => `
   <g transform="translate(${x}, ${y})">
+    <animateTransform attributeName="transform" type="translate" values="0,0; -10,5; 0,0" dur="2s" repeatCount="indefinite" additive="sum"/>
     <ellipse cx="0" cy="0" rx="25" ry="30" fill="#ffffff" stroke="#000" stroke-width="2" />
     <circle cx="-15" cy="5" r="4" fill="#ffd500" opacity="0.6" />
     <circle cx="15" cy="5" r="4" fill="#ffd500" opacity="0.6" />
     <path d="M -20 15 Q 0 35 20 15 Q 0 30 -20 15 Z" fill="#e0e0e0" />
-    <rect x="-18" y="-12" width="16" height="10" rx="2" fill="#333" stroke="#000" stroke-width="2" />
-    <rect x="2" y="-12" width="16" height="10" rx="2" fill="#333" stroke="#000" stroke-width="2" />
-    <path d="M -2 -7 L 2 -7" stroke="#000" stroke-width="2" />
-    <path d="M -18 -7 L -25 -5 M 18 -7 L 25 -5" stroke="#000" stroke-width="2" />
+    
+    <!-- Blinking Eyes / Glasses -->
+    <g>
+      <rect x="-18" y="-12" width="16" height="10" rx="2" fill="#333" stroke="#000" stroke-width="2" />
+      <rect x="2" y="-12" width="16" height="10" rx="2" fill="#333" stroke="#000" stroke-width="2" />
+      <path d="M -2 -7 L 2 -7" stroke="#000" stroke-width="2" />
+      <path d="M -18 -7 L -25 -5 M 18 -7 L 25 -5" stroke="#000" stroke-width="2" />
+      <animateTransform attributeName="transform" type="scale" values="1,1; 1,0.2; 1,1; 1,1" dur="4s" repeatCount="indefinite"/>
+    </g>
+    
     <path d="M -10 2 L 10 2 L 0 15 Z" fill="#ffb700" stroke="#000" stroke-width="2" />
     <path d="M -5 -30 C -15 -40 5 -45 5 -30 Z" fill="#000" />
     <path d="M 0 -30 C 15 -45 25 -35 10 -25 Z" fill="#000" />
@@ -290,15 +314,22 @@ export function generateSkyScene(stats: UserStats): string {
   `;
 }
 
-const renderLevelSign = (x: number, y: number, name: string) => `
+const renderLevelSign = (x: number, y: number, name: string, delay = 0) => `
   <g transform="translate(${x}, ${y})" filter="url(#shadow)">
+    <animateTransform attributeName="transform" type="translate" values="${x},${y}; ${x},${y-5}; ${x},${y}" dur="3s" begin="${delay}s" repeatCount="indefinite" additive="sum"/>
     <rect x="35" y="40" width="10" height="60" fill="#4a1803" />
     <rect x="0" y="0" width="160" height="50" fill="url(#woodGrad)" stroke="#783c07" stroke-width="4" rx="5" />
     <text x="80" y="22" font-size="12" fill="#fff" stroke="#4a1803" stroke-width="3" paint-order="stroke" text-anchor="middle">${name}</text>
     <g transform="translate(80, 38) scale(0.6)">
-      <path d="M -30 0 L -25 15 L -10 15 L -20 25 L -15 40 L -30 30 L -45 40 L -40 25 L -50 15 L -35 15 Z" fill="#ffd500" stroke="#a35712" stroke-width="2" />
-      <path d="M 0 -5 L 5 10 L 20 10 L 10 20 L 15 35 L 0 25 L -15 35 L -10 20 L -20 10 L -5 10 Z" fill="#ffd500" stroke="#a35712" stroke-width="2" />
-      <path d="M 30 0 L 35 15 L 50 15 L 40 25 L 45 40 L 30 30 L 15 40 L 20 25 L 10 15 L 25 15 Z" fill="#ffd500" stroke="#a35712" stroke-width="2" />
+      <path d="M -30 0 L -25 15 L -10 15 L -20 25 L -15 40 L -30 30 L -45 40 L -40 25 L -50 15 L -35 15 Z" fill="#ffd500" stroke="#a35712" stroke-width="2">
+        <animateTransform attributeName="transform" type="scale" values="1; 1.2; 1" dur="1.5s" begin="${delay}s" repeatCount="indefinite" additive="sum"/>
+      </path>
+      <path d="M 0 -5 L 5 10 L 20 10 L 10 20 L 15 35 L 0 25 L -15 35 L -10 20 L -20 10 L -5 10 Z" fill="#ffd500" stroke="#a35712" stroke-width="2">
+        <animateTransform attributeName="transform" type="scale" values="1; 1.3; 1" dur="1.5s" begin="${delay+0.2}s" repeatCount="indefinite" additive="sum"/>
+      </path>
+      <path d="M 30 0 L 35 15 L 50 15 L 40 25 L 45 40 L 30 30 L 15 40 L 20 25 L 10 15 L 25 15 Z" fill="#ffd500" stroke="#a35712" stroke-width="2">
+        <animateTransform attributeName="transform" type="scale" values="1; 1.2; 1" dur="1.5s" begin="${delay+0.4}s" repeatCount="indefinite" additive="sum"/>
+      </path>
     </g>
   </g>
 `;
@@ -314,16 +345,16 @@ export function generateHillsScene(): string {
       ${renderCloud(500, 100, 1)}
       
       <path d="M 0 300 Q 200 250 400 350 L 0 400 Z" fill="url(#grassGrad)" stroke="#2b5f07" stroke-width="2" />
-      ${renderLevelSign(100, 210, 'MOBILEHUB')}
+      ${renderLevelSign(100, 210, 'MOBILEHUB', 0)}
       
       <path d="M 300 400 Q 500 280 700 400 Z" fill="url(#grassGrad)" stroke="#2b5f07" stroke-width="2" />
-      ${renderLevelSign(420, 240, 'SPITCH ASSIST')}
+      ${renderLevelSign(420, 240, 'SPITCH ASSIST', 1)}
       
       <path d="M 700 350 Q 900 250 1200 300 L 1200 400 L 700 400 Z" fill="url(#grassGrad)" stroke="#2b5f07" stroke-width="2" />
-      ${renderLevelSign(850, 210, 'HOPE TRAVEL')}
+      ${renderLevelSign(850, 210, 'HOPE TRAVEL', 2)}
       
       <path d="M 1000 400 Q 1100 320 1200 400 Z" fill="url(#grassGrad)" stroke="#2b5f07" stroke-width="2" />
-      ${renderLevelSign(1020, 300, 'AGRI-INTEL')}
+      ${renderLevelSign(1020, 300, 'AGRI-INTEL', 3)}
     </svg>
   `;
 }
@@ -335,9 +366,13 @@ export function generateUndergroundScene(): string {
   skills.forEach((s, i) => {
     const x = 150 + (i * 140) + (Math.random() * 40 - 20);
     const y = 150 + (i % 2 === 0 ? 50 : 150);
+    const delay = i * 0.3;
     gems += `
       <g transform="translate(${x}, ${y})" filter="url(#shadow)">
-        <polygon points="0,-20 20,0 0,20 -20,0" fill="#38bdf8" stroke="#0284c7" stroke-width="3" />
+        <animateTransform attributeName="transform" type="translate" values="${x},${y}; ${x},${y-15}; ${x},${y}" dur="2s" begin="${delay}s" repeatCount="indefinite" additive="sum"/>
+        <polygon points="0,-20 20,0 0,20 -20,0" fill="#38bdf8" stroke="#0284c7" stroke-width="3">
+          <animate attributeName="fill" values="#38bdf8; #7dd3fc; #38bdf8" dur="2s" repeatCount="indefinite" />
+        </polygon>
         <text x="0" y="40" font-size="14" fill="#fff" text-anchor="middle" font-family="monospace">${s}</text>
       </g>
     `;
@@ -374,11 +409,14 @@ export function generateDungeonScene(): string {
       <text x="600" y="80" class="hud-label" font-size="24" fill="#ff4444" text-anchor="middle">FINAL BOSS: GATE 2027</text>
       
       <g transform="translate(600, 300)">
+        <animateTransform attributeName="transform" type="translate" values="600,300; 600,290; 600,300" dur="2s" repeatCount="indefinite" additive="sum"/>
         <rect x="-150" y="-50" width="300" height="50" fill="#222" stroke="#000" stroke-width="4" />
         <rect x="-100" y="-150" width="200" height="100" fill="#333" stroke="#000" stroke-width="4" />
         ${renderBugPig(0, -100, 50, true)}
         <rect x="-150" y="-200" width="300" height="20" fill="#000" stroke="#fff" stroke-width="2" />
-        <rect x="-148" y="-198" width="296" height="16" fill="#ff0000" />
+        <rect x="-148" y="-198" width="296" height="16" fill="#ff0000">
+          <animate attributeName="opacity" values="1; 0.5; 1" dur="1s" repeatCount="indefinite" />
+        </rect>
       </g>
       
       <g transform="translate(200, 300)">

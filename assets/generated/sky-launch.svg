@@ -109,6 +109,7 @@
       <!-- Fluffy Clouds -->
       
   <g transform="translate(150, 150) scale(1.2)">
+    <animateTransform attributeName="transform" type="translate" values="150,150; -50,150; 150,150" dur="40s" repeatCount="indefinite" additive="sum"/>
     <path d="M 0 0 C -20 0 -40 -15 -40 -35 C -40 -60 -20 -70 0 -70 C 5 -90 35 -100 50 -80 C 70 -90 95 -75 95 -50 C 115 -45 125 -20 110 -5 C 120 10 105 25 85 20 C 70 35 30 35 15 20 Z" fill="#ffffff" />
     <circle cx="-15" cy="-35" r="5" fill="#e6f2fa" />
     <circle cx="15" cy="-55" r="8" fill="#e6f2fa" />
@@ -117,6 +118,7 @@
 
       
   <g transform="translate(850, 100) scale(0.8)">
+    <animateTransform attributeName="transform" type="translate" values="850,100; 650,100; 850,100" dur="40s" repeatCount="indefinite" additive="sum"/>
     <path d="M 0 0 C -20 0 -40 -15 -40 -35 C -40 -60 -20 -70 0 -70 C 5 -90 35 -100 50 -80 C 70 -90 95 -75 95 -50 C 115 -45 125 -20 110 -5 C 120 10 105 25 85 20 C 70 35 30 35 15 20 Z" fill="#ffffff" />
     <circle cx="-15" cy="-35" r="5" fill="#e6f2fa" />
     <circle cx="15" cy="-55" r="8" fill="#e6f2fa" />
@@ -125,6 +127,7 @@
 
       
   <g transform="translate(1150, 80) scale(1.5)">
+    <animateTransform attributeName="transform" type="translate" values="1150,80; 950,80; 1150,80" dur="40s" repeatCount="indefinite" additive="sum"/>
     <path d="M 0 0 C -20 0 -40 -15 -40 -35 C -40 -60 -20 -70 0 -70 C 5 -90 35 -100 50 -80 C 70 -90 95 -75 95 -50 C 115 -45 125 -20 110 -5 C 120 10 105 25 85 20 C 70 35 30 35 15 20 Z" fill="#ffffff" />
     <circle cx="-15" cy="-35" r="5" fill="#e6f2fa" />
     <circle cx="15" cy="-55" r="8" fill="#e6f2fa" />
@@ -161,23 +164,39 @@
       <!-- Slingshot & Bird (Left, sitting firmly on the cliff) -->
       
   <g transform="translate(50, 300)">
-    <path d="M -15 -80 L -70 -50" stroke="#4a1803" stroke-width="8" stroke-linecap="round" />
+    <!-- Back Band with stretch animation -->
+    <path d="M -15 -80 L -70 -50" stroke="#4a1803" stroke-width="8" stroke-linecap="round">
+      <animate attributeName="d" values="M -15 -80 L -70 -50; M -15 -80 L -80 -45; M -15 -80 L -70 -50" dur="2s" repeatCount="indefinite" />
+    </path>
     <path d="M 0 0 L 0 -50 L -20 -90 M 0 -50 L 20 -90" fill="none" stroke="#a35712" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
     <path d="M 0 0 L 0 -50 L -20 -90 M 0 -50 L 20 -90" fill="none" stroke="#783c07" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.5" />
-    <path d="M -80 -60 Q -70 -40 -60 -60" fill="none" stroke="#783c07" stroke-width="14" stroke-linecap="round" />
-    <path d="M 15 -80 L -65 -50" stroke="#4a1803" stroke-width="8" stroke-linecap="round" />
+    <!-- Pouch with stretch animation -->
+    <path d="M -80 -60 Q -70 -40 -60 -60" fill="none" stroke="#783c07" stroke-width="14" stroke-linecap="round">
+      <animate attributeName="d" values="M -80 -60 Q -70 -40 -60 -60; M -90 -55 Q -80 -35 -70 -55; M -80 -60 Q -70 -40 -60 -60" dur="2s" repeatCount="indefinite" />
+    </path>
+    <!-- Front Band with stretch animation -->
+    <path d="M 15 -80 L -65 -50" stroke="#4a1803" stroke-width="8" stroke-linecap="round">
+      <animate attributeName="d" values="M 15 -80 L -65 -50; M 15 -80 L -75 -45; M 15 -80 L -65 -50" dur="2s" repeatCount="indefinite" />
+    </path>
   </g>
 
       
   <g transform="translate(10, 255)">
+    <animateTransform attributeName="transform" type="translate" values="0,0; -10,5; 0,0" dur="2s" repeatCount="indefinite" additive="sum"/>
     <ellipse cx="0" cy="0" rx="25" ry="30" fill="#ffffff" stroke="#000" stroke-width="2" />
     <circle cx="-15" cy="5" r="4" fill="#ffd500" opacity="0.6" />
     <circle cx="15" cy="5" r="4" fill="#ffd500" opacity="0.6" />
     <path d="M -20 15 Q 0 35 20 15 Q 0 30 -20 15 Z" fill="#e0e0e0" />
-    <rect x="-18" y="-12" width="16" height="10" rx="2" fill="#333" stroke="#000" stroke-width="2" />
-    <rect x="2" y="-12" width="16" height="10" rx="2" fill="#333" stroke="#000" stroke-width="2" />
-    <path d="M -2 -7 L 2 -7" stroke="#000" stroke-width="2" />
-    <path d="M -18 -7 L -25 -5 M 18 -7 L 25 -5" stroke="#000" stroke-width="2" />
+    
+    <!-- Blinking Eyes / Glasses -->
+    <g>
+      <rect x="-18" y="-12" width="16" height="10" rx="2" fill="#333" stroke="#000" stroke-width="2" />
+      <rect x="2" y="-12" width="16" height="10" rx="2" fill="#333" stroke="#000" stroke-width="2" />
+      <path d="M -2 -7 L 2 -7" stroke="#000" stroke-width="2" />
+      <path d="M -18 -7 L -25 -5 M 18 -7 L 25 -5" stroke="#000" stroke-width="2" />
+      <animateTransform attributeName="transform" type="scale" values="1,1; 1,0.2; 1,1; 1,1" dur="4s" repeatCount="indefinite"/>
+    </g>
+    
     <path d="M -10 2 L 10 2 L 0 15 Z" fill="#ffb700" stroke="#000" stroke-width="2" />
     <path d="M -5 -30 C -15 -40 5 -45 5 -30 Z" fill="#000" />
     <path d="M 0 -30 C 15 -45 25 -35 10 -25 Z" fill="#000" />
@@ -213,15 +232,21 @@
   </g>
 
         
-  <g transform="translate(60, -20)" class="animate-bounce">
+  <g transform="translate(60, -20)">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 0,-8; 0,0; 0,0" dur="1s" begin="0s" repeatCount="indefinite" additive="sum"/>
     <circle cx="0" cy="0" r="18" fill="#78ce12" stroke="#325a03" stroke-width="2" />
     <ellipse cx="0" cy="5" rx="9" ry="6" fill="#9df033" stroke="#325a03" stroke-width="1.5" />
     <circle cx="-3" cy="4" r="2" fill="#325a03" />
     <circle cx="3" cy="4" r="2" fill="#325a03" />
-    <circle cx="-7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
-    <circle cx="-6" cy="-3" r="1.5" fill="#000" />
-    <circle cx="7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
-    <circle cx="6" cy="-3" r="1.5" fill="#000" />
+    
+    <!-- Blinking Eyes -->
+    <g>
+      <circle cx="-7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
+      <circle cx="-6" cy="-3" r="1.5" fill="#000" />
+      <circle cx="7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
+      <circle cx="6" cy="-3" r="1.5" fill="#000" />
+      <animateTransform attributeName="transform" type="scale" values="1,1; 1,0.1; 1,1; 1,1" dur="3s" begin="0s" repeatCount="indefinite"/>
+    </g>
     
     
     <ellipse cx="0" cy="-14" rx="14" ry="4" fill="#fcdb9c" stroke="#a35712" stroke-width="1.5" />
@@ -253,15 +278,21 @@
   </g>
 
         
-  <g transform="translate(90, -120)" class="animate-bounce">
+  <g transform="translate(90, -120)">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 0,-8; 0,0; 0,0" dur="1s" begin="0s" repeatCount="indefinite" additive="sum"/>
     <circle cx="0" cy="0" r="18" fill="#78ce12" stroke="#325a03" stroke-width="2" />
     <ellipse cx="0" cy="5" rx="9" ry="6" fill="#9df033" stroke="#325a03" stroke-width="1.5" />
     <circle cx="-3" cy="4" r="2" fill="#325a03" />
     <circle cx="3" cy="4" r="2" fill="#325a03" />
-    <circle cx="-7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
-    <circle cx="-6" cy="-3" r="1.5" fill="#000" />
-    <circle cx="7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
-    <circle cx="6" cy="-3" r="1.5" fill="#000" />
+    
+    <!-- Blinking Eyes -->
+    <g>
+      <circle cx="-7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
+      <circle cx="-6" cy="-3" r="1.5" fill="#000" />
+      <circle cx="7" cy="-3" r="4" fill="#ffffff" stroke="#325a03" stroke-width="1" />
+      <circle cx="6" cy="-3" r="1.5" fill="#000" />
+      <animateTransform attributeName="transform" type="scale" values="1,1; 1,0.1; 1,1; 1,1" dur="3s" begin="0s" repeatCount="indefinite"/>
+    </g>
     
     
     <ellipse cx="0" cy="-14" rx="14" ry="4" fill="#fcdb9c" stroke="#a35712" stroke-width="1.5" />
