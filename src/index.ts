@@ -1,7 +1,7 @@
 import { fetchGitHubStats } from './fetcher';
 import {
   generateHeroBanner,
-  generateHeroStats,
+  generateProjectWorlds,
   generatePowerups,
   generateWorldMap,
   generateBossBattle,
@@ -16,8 +16,8 @@ async function main() {
   console.log('Generating Hero Banner...');
   writeSvg('hero-banner.svg', generateHeroBanner(stats));
   
-  console.log('Generating Hero Stats...');
-  writeSvg('hero-stats.svg', generateHeroStats(stats));
+  console.log('Generating Project Worlds...');
+  writeSvg('project-worlds.svg', generateProjectWorlds());
   
   console.log('Generating Powerups...');
   writeSvg('powerups.svg', generatePowerups());
@@ -31,7 +31,7 @@ async function main() {
   console.log('Generating Achievements...');
   writeSvg('achievement-board.svg', generateAchievements());
   
-  console.log('Successfully generated all dynamic profile assets!');
+  console.log('Successfully generated all immersive dynamic profile assets!');
 }
 
 main().catch(console.error);

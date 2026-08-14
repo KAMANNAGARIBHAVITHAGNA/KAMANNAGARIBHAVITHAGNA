@@ -6,7 +6,7 @@
   
   <br><br>
   
-  <img src="./assets/generated/hero-stats.svg" alt="Player Stats" width="100%">
+  <img src="./assets/generated/project-worlds.svg" alt="Project Worlds" width="100%">
   
   <br><br>
   
