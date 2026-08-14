@@ -1,12 +1,13 @@
 <svg width="1200" height="400" viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg">
       <rect width="1200" height="400" fill="#000" />
+      
       <!-- Big vines in background -->
       <path d="M 0 0 Q 300 200 600 0 T 1200 100" fill="none" stroke="#450a0a" stroke-width="20" />
       <path d="M 0 400 Q 300 100 600 400 T 1200 200" fill="none" stroke="#450a0a" stroke-width="25" />
       
       
     <g transform="translate(250, 150)">
-      <animateTransform attributeName="transform" type="translate" values="250,150; 250,135; 250,150" dur="2.7623151393333054s" repeatCount="indefinite" />
+      <animateTransform attributeName="transform" type="translate" values="250,150; 250,135; 250,150" dur="3.116095778270294s" repeatCount="indefinite" />
       <rect x="-100" y="-40" width="200" height="80" fill="#0f172a" stroke="#ef4444" stroke-width="2" />
       <text x="0" y="-5" font-family="'VT323', monospace" font-size="20" fill="#f87171" text-anchor="middle">Machine Learning</text>
       <!-- Vine wrapping -->
@@ -15,7 +16,7 @@
   
       
     <g transform="translate(600, 250)">
-      <animateTransform attributeName="transform" type="translate" values="600,250; 600,235; 600,250" dur="3.848108755113401s" repeatCount="indefinite" />
+      <animateTransform attributeName="transform" type="translate" values="600,250; 600,235; 600,250" dur="3.930420972366053s" repeatCount="indefinite" />
       <rect x="-100" y="-40" width="200" height="80" fill="#0f172a" stroke="#ef4444" stroke-width="2" />
       <text x="0" y="-5" font-family="'VT323', monospace" font-size="20" fill="#f87171" text-anchor="middle">React Apps</text>
       <!-- Vine wrapping -->
@@ -24,7 +25,7 @@
   
       
     <g transform="translate(950, 120)">
-      <animateTransform attributeName="transform" type="translate" values="950,120; 950,105; 950,120" dur="2.8158862343549695s" repeatCount="indefinite" />
+      <animateTransform attributeName="transform" type="translate" values="950,120; 950,105; 950,120" dur="3.3513726789889553s" repeatCount="indefinite" />
       <rect x="-100" y="-40" width="200" height="80" fill="#0f172a" stroke="#ef4444" stroke-width="2" />
       <text x="0" y="-5" font-family="'VT323', monospace" font-size="20" fill="#f87171" text-anchor="middle">Data Science</text>
       <!-- Vine wrapping -->

@@ -8,6 +8,7 @@
       </defs>
       <rect width="1200" height="400" fill="url(#sunset)" />
       
+      
       <!-- Sun -->
       <circle cx="600" cy="200" r="100" fill="#fef08a" opacity="0.8" />
       <!-- Scanlines over sun -->

@@ -1,4 +1,5 @@
 import { UserStats } from './fetcher';
+import { getBackgroundImage } from './generator';
 
 const W = 1200;
 const H = 400;
@@ -20,6 +21,7 @@ export function generateEvidenceScene(): string {
   return `
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       <rect width="${W}" height="${H}" fill="#c19a6b" />
+      ${getBackgroundImage('grid05')}
       <!-- Strings -->
       <path d="M 280 105 L 480 205 L 780 155 L 980 255 L 280 105" fill="none" stroke="#ef4444" stroke-width="3" opacity="0.8" />
       
@@ -36,6 +38,7 @@ export function generateMapScene(): string {
   return `
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       <rect width="${W}" height="${H}" fill="#0f172a" />
+      ${getBackgroundImage('grid06')}
       <!-- Roads -->
       <path d="M 0 300 Q 300 300 500 200 T 900 100 L 1200 100" fill="none" stroke="#334155" stroke-width="20" />
       <path d="M 0 300 Q 300 300 500 200 T 900 100 L 1200 100" fill="none" stroke="#eab308" stroke-width="2" stroke-dasharray="10 10" />
@@ -72,6 +75,7 @@ export function generateBossScene(): string {
         </radialGradient>
       </defs>
       <rect width="${W}" height="${H}" fill="url(#fire)" />
+      ${getBackgroundImage('grid07')}
       
       <!-- Demogorgon Silhouette -->
       <g transform="translate(600, 400)">
@@ -103,6 +107,7 @@ export function generateClockScene(): string {
   return `
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       <rect width="${W}" height="${H}" fill="#000" />
+      ${getBackgroundImage('grid08')}
       <!-- Lightning -->
       <rect width="${W}" height="${H}" fill="#fff" opacity="0">
         <animate attributeName="opacity" values="0;0;0;0;1;0;0;0;0.5;0" dur="5s" repeatCount="indefinite" />

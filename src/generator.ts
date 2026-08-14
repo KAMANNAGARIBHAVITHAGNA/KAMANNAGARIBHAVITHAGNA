@@ -87,6 +87,21 @@ const getCommonStyles = () => `
   </defs>
 `;
 
+export function getBackgroundImage(gridName: string): string {
+  const bgPath = path.join(process.cwd(), 'assets', 'backgrounds', `${gridName}.png`);
+  const jpgPath = path.join(process.cwd(), 'assets', 'backgrounds', `${gridName}.jpg`);
+  
+  if (fs.existsSync(bgPath)) {
+    const b64 = fs.readFileSync(bgPath).toString('base64');
+    return `<image href="data:image/png;base64,${b64}" width="1200" height="400" preserveAspectRatio="xMidYMid slice" />`;
+  }
+  if (fs.existsSync(jpgPath)) {
+    const b64 = fs.readFileSync(jpgPath).toString('base64');
+    return `<image href="data:image/jpeg;base64,${b64}" width="1200" height="400" preserveAspectRatio="xMidYMid slice" />`;
+  }
+  return '';
+}
+
 const renderSpores = (count: number) => {
   let spores = '';
   for(let i=0; i<count; i++) {
@@ -139,6 +154,7 @@ export function generateHeroScene(stats: UserStats): string {
       ${getCommonStyles()}
       <!-- Vintage Wallpaper Background -->
       <rect width="${W}" height="${H}" fill="#78350f" />
+      ${getBackgroundImage('grid01')}
       <rect width="${W}" height="${H}" fill="#000" opacity="0.6" />
       <path d="M 0 50 Q 600 150 1200 50 M 0 150 Q 600 250 1200 150 M 0 250 Q 600 350 1200 250" fill="none" stroke="#111" stroke-width="5" />
       
@@ -171,6 +187,7 @@ export function generateTerminalScene(stats: UserStats): string {
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
       <rect width="${W}" height="${H}" fill="#052e16" />
+      ${getBackgroundImage('grid02')}
       <rect width="${W}" height="${H}" fill="url(#scanlines)" />
       
       <!-- Screen glow -->
@@ -219,6 +236,7 @@ export function generatePartyScene(): string {
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
       <rect width="${W}" height="${H}" fill="url(#upsideDownGrad)" />
+      ${getBackgroundImage('grid03')}
       
       <!-- Ground -->
       <rect y="300" width="${W}" height="100" fill="#111" />
@@ -252,6 +270,7 @@ export function generatePortalScene(stats: UserStats): string {
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
       <rect width="${W}" height="${H}" fill="#000" />
+      ${getBackgroundImage('grid04')}
       <g filter="url(#glow-red)">
         <ellipse cx="600" cy="200" rx="300" ry="150" fill="none" stroke="#ff0000" stroke-width="20">
           <animateTransform attributeName="transform" type="rotate" values="0 600 200; 360 600 200" dur="10s" repeatCount="indefinite" />

@@ -1,4 +1,5 @@
 import { UserStats } from './fetcher';
+import { getBackgroundImage } from './generator';
 
 const W = 1200;
 const H = 400;
@@ -17,6 +18,7 @@ export function generateReposScene(): string {
   return `
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       <rect width="${W}" height="${H}" fill="#000" />
+      ${getBackgroundImage('grid09')}
       <!-- Big vines in background -->
       <path d="M 0 0 Q 300 200 600 0 T 1200 100" fill="none" stroke="#450a0a" stroke-width="20" />
       <path d="M 0 400 Q 300 100 600 400 T 1200 200" fill="none" stroke="#450a0a" stroke-width="25" />
@@ -33,6 +35,7 @@ export function generateRadarScene(): string {
   return `
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       <rect width="${W}" height="${H}" fill="#064e3b" />
+      ${getBackgroundImage('grid10')}
       <rect width="${W}" height="${H}" fill="#000" opacity="0.8" />
       
       <g transform="translate(600, 200)">
@@ -85,6 +88,7 @@ export function generateArcadeScene(): string {
   return `
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       <rect width="${W}" height="${H}" fill="#0f172a" />
+      ${getBackgroundImage('grid11')}
       <path d="M 0 300 L 1200 300" stroke="#f472b6" stroke-width="2" opacity="0.5" />
       <rect y="300" width="${W}" height="100" fill="#1e1b4b" />
       
@@ -108,6 +112,7 @@ export function generateEscapeScene(): string {
         </linearGradient>
       </defs>
       <rect width="${W}" height="${H}" fill="url(#sunset)" />
+      ${getBackgroundImage('grid12')}
       
       <!-- Sun -->
       <circle cx="600" cy="200" r="100" fill="#fef08a" opacity="0.8" />
