@@ -2,399 +2,369 @@ import fs from 'fs';
 import path from 'path';
 import { UserStats } from './fetcher';
 
+// PREMIUM UI DESIGN SYSTEM
 const colors = {
-  star: '#fbbf24',
+  bg: '#0B1121',
+  bgPanel: '#1E293B',
+  bgDark: '#020617',
+  accentBlue: '#38BDF8',
+  accentGold: '#FBBF24',
+  accentRed: '#EF4444',
+  accentGreen: '#10B981',
+  textMain: '#F8FAFC',
+  textMuted: '#94A3B8',
+  border: '#334155',
 };
 
-// Define complex vector styling and filters
-const getDefs = () => `
+const getCommonStyles = () => `
   <defs>
-    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#38bdf8" />
-      <stop offset="100%" stop-color="#7dd3fc" />
+    <!-- Gradients for Premium Look -->
+    <linearGradient id="panelGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${colors.bgPanel}" />
+      <stop offset="100%" stop-color="#0F172A" />
     </linearGradient>
-    <linearGradient id="sunsetGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#7dd3fc" />
-      <stop offset="50%" stop-color="#fcd34d" />
-      <stop offset="100%" stop-color="#fb923c" />
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FCD34D" />
+      <stop offset="100%" stop-color="#D97706" />
     </linearGradient>
-    <linearGradient id="nightGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#fb923c" />
-      <stop offset="50%" stop-color="#312e81" />
-      <stop offset="100%" stop-color="#1e1b4b" />
+    <linearGradient id="blueGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7DD3FC" />
+      <stop offset="100%" stop-color="#0284C7" />
     </linearGradient>
-    <linearGradient id="dungeonGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1e1b4b" />
-      <stop offset="100%" stop-color="#020617" />
+    <linearGradient id="redGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FCA5A5" />
+      <stop offset="100%" stop-color="#B91C1C" />
     </linearGradient>
-    <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#84cc16" />
-      <stop offset="100%" stop-color="#4d7c0f" />
-    </linearGradient>
-    <linearGradient id="woodGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#b45309" />
-      <stop offset="50%" stop-color="#d97706" />
-      <stop offset="100%" stop-color="#92400e" />
-    </linearGradient>
-    <linearGradient id="stoneGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#94a3b8" />
-      <stop offset="100%" stop-color="#475569" />
-    </linearGradient>
-    <linearGradient id="dirtGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#a16207" />
-      <stop offset="100%" stop-color="#713f12" />
-    </linearGradient>
-    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-opacity="0.4" />
-    </filter>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="6" result="blur" />
+    
+    <filter id="glowGold" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
+    
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComponentTransfer in="blur" result="glow">
+        <feFuncA type="linear" slope="0.5"/>
+      </feComponentTransfer>
+      <feComposite in="SourceGraphic" in2="glow" operator="over" />
+    </filter>
   </defs>
-`;
-
-const getCommonStyles = () => `
-  ${getDefs()}
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Lilita+One&amp;display=swap');
-    text { font-family: 'Lilita One', sans-serif; }
-    .hud-text { fill: #ffffff; font-size: 24px; paint-order: stroke; stroke: #000000; stroke-width: 5px; stroke-linecap: round; stroke-linejoin: round; }
-    .hud-label { fill: #fde047; font-size: 16px; paint-order: stroke; stroke: #000000; stroke-width: 4px; }
-    .title-text { fill: #ffffff; font-size: 48px; paint-order: stroke; stroke: #000000; stroke-width: 10px; stroke-linecap: round; stroke-linejoin: round; }
-    .subtitle-text { fill: #fef08a; font-size: 24px; paint-order: stroke; stroke: #000000; stroke-width: 6px; }
-    @keyframes cloudDrift { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-    @keyframes birdHover { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-5px) rotate(2deg); } }
-    @keyframes bossHover { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-    @keyframes lightning { 0%, 95%, 100% { opacity: 0; } 96%, 98% { opacity: 1; } 97% { opacity: 0.5; } }
-    .animate-cloud { animation: cloudDrift 60s linear infinite; }
-    .animate-bird { animation: birdHover 2s ease-in-out infinite; }
-    .animate-boss { animation: bossHover 3s ease-in-out infinite; }
-    .animate-lightning { animation: lightning 6s infinite; }
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap');
+    
+    text {
+      font-family: 'Press Start 2P', cursive;
+      fill: ${colors.textMain};
+    }
+    
+    .title { font-size: 20px; fill: ${colors.accentGold}; letter-spacing: 2px; }
+    .subtitle { font-size: 10px; fill: ${colors.textMuted}; }
+    .label { font-size: 8px; fill: ${colors.accentBlue}; }
+    .value { font-size: 16px; fill: ${colors.textMain}; }
+    .value-huge { font-size: 32px; fill: ${colors.textMain}; }
+    
+    .panel { fill: url(#panelGrad); stroke: ${colors.border}; stroke-width: 2px; }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    @keyframes dash {
+      to { stroke-dashoffset: -20; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    
+    .animate-pulse { animation: pulse 2s infinite; }
+    .animate-dash { animation: dash 1s linear infinite; }
+    .animate-float { animation: float 3s ease-in-out infinite; }
   </style>
 `;
 
-// Helper Render Functions
-const renderBird = (x: number, y: number, color1: string, color2: string, style: 'red'|'yellow'|'blue'|'black'|'white', label: string) => {
-  let shape = '';
-  if (style === 'red') {
-    shape = `<circle cx="0" cy="0" r="30" fill="${color1}" stroke="#000" stroke-width="3" filter="url(#dropShadow)" />
-             <path d="M -25 15 Q 0 35 25 15 Q 0 40 -25 15 Z" fill="${color2}" />`;
-  } else if (style === 'yellow') {
-    shape = `<path d="M -30 25 L 0 -35 L 30 25 Z" fill="${color1}" stroke="#000" stroke-width="3" filter="url(#dropShadow)" />`;
-  } else if (style === 'blue') {
-    shape = `<circle cx="0" cy="0" r="25" fill="${color1}" stroke="#000" stroke-width="3" filter="url(#dropShadow)" />`;
-  } else if (style === 'black') {
-    shape = `<circle cx="0" cy="0" r="35" fill="${color1}" stroke="#000" stroke-width="3" filter="url(#dropShadow)" />
-             <circle cx="0" cy="20" r="15" fill="${color2}" />`;
-  } else {
-    shape = `<ellipse cx="0" cy="0" rx="30" ry="25" fill="${color1}" stroke="#000" stroke-width="3" filter="url(#dropShadow)" />`;
-  }
-
-  return `
-    <g transform="translate(${x}, ${y})" class="animate-bird">
-      ${shape}
-      <rect x="-18" y="-15" width="36" height="14" rx="4" fill="#1e293b" />
-      <circle cx="-9" cy="-8" r="4" fill="#38bdf8" />
-      <circle cx="9" cy="-8" r="4" fill="#38bdf8" />
-      <path d="M -16 -20 L -4 -16 L 4 -16 L 16 -20" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round" />
-      <path d="M -10 5 L 10 5 L 0 15 Z" fill="#fbbf24" stroke="#000" stroke-width="2" />
-      <text x="0" y="25" font-family="monospace" font-size="12" font-weight="bold" fill="#000" text-anchor="middle">${label}</text>
-    </g>
-  `;
-};
-
-const renderBug = (x: number, y: number, r=16) => `
+const renderUIBox = (x: number, y: number, w: number, h: number, title?: string) => `
   <g transform="translate(${x}, ${y})">
-    <circle cx="0" cy="0" r="${r}" fill="#84cc16" stroke="#3f6212" stroke-width="3" filter="url(#dropShadow)" />
-    <circle cx="-${r*0.4}" cy="-${r*0.25}" r="${r*0.3}" fill="#ffffff" />
-    <circle cx="${r*0.4}" cy="-${r*0.25}" r="${r*0.3}" fill="#ffffff" />
-    <circle cx="-${r*0.4}" cy="-${r*0.25}" r="${r*0.1}" fill="#000" />
-    <circle cx="${r*0.4}" cy="-${r*0.25}" r="${r*0.1}" fill="#000" />
-    <ellipse cx="0" cy="${r*0.4}" rx="${r*0.5}" ry="${r*0.3}" fill="#65a30d" stroke="#3f6212" stroke-width="2" />
+    <rect width="${w}" height="${h}" class="panel" rx="4" />
+    <rect x="2" y="2" width="${w-4}" height="${h-4}" fill="none" stroke="#FFFFFF" stroke-opacity="0.05" stroke-width="1" rx="2" />
+    ${title ? `
+      <rect x="10" y="-8" width="${title.length * 12 + 20}" height="16" fill="${colors.bg}" />
+      <text x="20" y="2" font-size="10" fill="${colors.accentGold}">[ ${title} ]</text>
+    ` : ''}
   </g>
 `;
 
-const renderBlock = (x: number, y: number, w: number, h: number, type: 'wood'|'stone'|'glass') => {
-  if(type === 'wood') return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#woodGrad)" stroke="#451a03" stroke-width="3" filter="url(#dropShadow)" /><path d="M ${x+w*0.2} ${y+h*0.2} Q ${x+w/2} ${y+h/2} ${x+w*0.8} ${y+h*0.8}" fill="none" stroke="#451a03" stroke-width="1.5" opacity="0.4" />`;
-  if(type === 'stone') return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#stoneGrad)" stroke="#1e293b" stroke-width="3" rx="4" filter="url(#dropShadow)" />`;
-  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#bae6fd" stroke="#38bdf8" stroke-width="3" rx="2" opacity="0.8" filter="url(#dropShadow)" />`;
-};
-
-const renderStars = (x: number, y: number, earned: 1|2|3) => `
-  <g transform="translate(${x}, ${y}) scale(0.8)">
-    <path d="M 0 0 L 10 20 L 30 20 L 15 35 L 20 55 L 0 40 L -20 55 L -15 35 L -30 20 L -10 20 Z" fill="${earned >= 1 ? '#fbbf24' : '#475569'}" stroke="#000" stroke-width="3" filter="url(#dropShadow)" />
-    <path d="M 40 -15 L 50 5 L 70 5 L 55 20 L 60 40 L 40 25 L 20 40 L 25 20 L 10 5 L 30 5 Z" fill="${earned >= 2 ? '#fbbf24' : '#475569'}" stroke="#000" stroke-width="3" filter="url(#dropShadow)" />
-    <path d="M 80 0 L 90 20 L 110 20 L 95 35 L 100 55 L 80 40 L 60 55 L 65 35 L 50 20 L 70 20 Z" fill="${earned >= 3 ? '#fbbf24' : '#475569'}" stroke="#000" stroke-width="3" filter="url(#dropShadow)" />
+const renderServerFortress = (x: number, y: number) => `
+  <g transform="translate(${x}, ${y})">
+    <!-- Server Rack Bases -->
+    <rect x="0" y="60" width="160" height="40" fill="#1E293B" stroke="${colors.accentBlue}" stroke-width="2" />
+    <rect x="10" y="0" width="40" height="60" fill="#0F172A" stroke="${colors.accentBlue}" stroke-width="2" />
+    <rect x="110" y="20" width="40" height="40" fill="#0F172A" stroke="${colors.accentBlue}" stroke-width="2" />
+    
+    <!-- Code Blocks / DB Cylinders -->
+    <path d="M 60 40 L 100 40 L 100 60 L 60 60 Z" fill="#334155" stroke="${colors.accentBlue}" stroke-width="2" />
+    <ellipse cx="80" cy="40" rx="20" ry="5" fill="#475569" stroke="${colors.accentBlue}" stroke-width="2" />
+    
+    <!-- Lights -->
+    <circle cx="20" cy="15" r="2" fill="${colors.accentRed}" class="animate-pulse" />
+    <circle cx="30" cy="15" r="2" fill="${colors.accentGreen}" />
+    <circle cx="120" cy="35" r="2" fill="${colors.accentGold}" />
+    <circle cx="130" cy="35" r="2" fill="${colors.accentGreen}" />
+    
+    <!-- Glitching Bugs -->
+    <text x="70" y="30" font-size="10" fill="${colors.accentRed}" font-family="monospace">&lt;ERR&gt;</text>
+    <rect x="20" y="80" width="12" height="12" fill="${colors.accentRed}" />
+    <rect x="23" y="83" width="6" height="2" fill="#000" />
+    
+    <rect x="120" y="80" width="12" height="12" fill="${colors.accentRed}" />
+    <rect x="123" y="83" width="6" height="2" fill="#000" />
   </g>
 `;
 
-export function generateContinuousWorld(stats: UserStats): string {
-  const WIDTH = 800;
-  const HEIGHT = 3800; // Total height for seamless world
+const renderAIMascot = (x: number, y: number) => `
+  <g transform="translate(${x}, ${y})" class="animate-float">
+    <!-- Core Sphere -->
+    <circle cx="0" cy="0" r="15" fill="url(#blueGrad)" stroke="${colors.accentBlue}" stroke-width="2" filter="url(#glowBlue)" />
+    <!-- Visor -->
+    <rect x="-10" y="-4" width="20" height="6" rx="2" fill="#000" />
+    <rect x="-6" y="-2" width="12" height="2" fill="${colors.accentBlue}" class="animate-pulse" />
+    <!-- Energy Rings -->
+    <path d="M -25 0 A 25 10 0 0 0 25 0" fill="none" stroke="${colors.accentBlue}" stroke-width="2" stroke-dasharray="4,2" />
+  </g>
+`;
+
+export function generateHeroScene(): string {
+  const W = 1000, H = 300;
+  return `
+    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+      ${getCommonStyles()}
+      <rect width="${W}" height="${H}" fill="${colors.bg}" />
+      
+      <!-- Grid Background -->
+      <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#FFFFFF" stroke-opacity="0.03" stroke-width="1"/>
+      </pattern>
+      <rect width="${W}" height="${H}" fill="url(#grid)" />
+
+      <!-- Cinematic Title -->
+      <text x="500" y="50" class="title" text-anchor="middle" filter="url(#glowGold)">ANGRY DEV</text>
+      <text x="500" y="70" class="subtitle" text-anchor="middle">DEVELOPER VS BUGS: PRODUCTION DEPLOYMENT</text>
+      
+      <!-- Scene Bounds -->
+      <rect x="20" y="90" width="960" height="190" fill="none" stroke="${colors.border}" stroke-width="2" />
+      <rect x="22" y="92" width="956" height="186" fill="none" stroke="#FFFFFF" stroke-opacity="0.05" stroke-width="1" />
+
+      <!-- High Tech Slingshot -->
+      <g transform="translate(150, 200)">
+        <path d="M -10 60 L -10 0 L -30 -30 M -10 0 L 10 -30" fill="none" stroke="${colors.textMuted}" stroke-width="8" stroke-linecap="square" />
+        <path d="M -10 60 L -10 0 L -30 -30 M -10 0 L 10 -30" fill="none" stroke="${colors.accentBlue}" stroke-width="2" />
+        <!-- Energy Band -->
+        <path d="M -30 -30 L -80 -10 L 10 -30" fill="none" stroke="${colors.accentBlue}" stroke-width="2" filter="url(#glowBlue)" />
+      </g>
+
+      <!-- Mascot -->
+      ${renderAIMascot(70, 190)}
+
+      <!-- Trajectory Arc -->
+      <path d="M 90 190 Q 300 50 650 180" fill="none" stroke="${colors.accentBlue}" stroke-width="2" stroke-dasharray="10,10" class="animate-dash" opacity="0.6" />
+      
+      <!-- Target Fortress -->
+      ${renderServerFortress(750, 150)}
+      
+      <!-- Scanning HUD Overlay -->
+      <path d="M 700 130 L 730 130 L 730 160" fill="none" stroke="${colors.accentRed}" stroke-width="2" />
+      <path d="M 950 130 L 920 130 L 920 160" fill="none" stroke="${colors.accentRed}" stroke-width="2" />
+      <path d="M 700 270 L 730 270 L 730 240" fill="none" stroke="${colors.accentRed}" stroke-width="2" />
+      <path d="M 950 270 L 920 270 L 920 240" fill="none" stroke="${colors.accentRed}" stroke-width="2" />
+      <text x="825" y="125" class="label" fill="${colors.accentRed}" text-anchor="middle">TARGET LOCKED: CRITICAL BUGS</text>
+    </svg>
+  `;
+}
+
+export function generateHudScene(stats: UserStats): string {
+  const W = 1000, H = 150;
+  return `
+    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+      ${getCommonStyles()}
+      <rect width="${W}" height="${H}" fill="${colors.bg}" />
+      
+      ${renderUIBox(20, 20, 960, 110, 'LIVE SCOREBOARD')}
+      
+      <g transform="translate(60, 60)">
+        <text x="0" y="0" class="label">PLAYER PROFILE</text>
+        <text x="0" y="25" class="value">${stats.name.toUpperCase()}</text>
+        <text x="0" y="45" class="subtitle">AI ENGINEER</text>
+      </g>
+      
+      <rect x="350" y="40" width="2" height="70" fill="${colors.border}" />
+      
+      <g transform="translate(420, 60)">
+        <text x="0" y="0" class="label">CONTRIBUTIONS</text>
+        <text x="0" y="35" class="value-huge" fill="${colors.accentGold}">${stats.totalCommits}</text>
+        <text x="0" y="55" class="subtitle">ALL TIME SCORE</text>
+      </g>
+      
+      <g transform="translate(620, 60)">
+        <text x="0" y="0" class="label">STARS COLLECTED</text>
+        <text x="0" y="35" class="value-huge" fill="${colors.accentBlue}">${stats.totalStars}</text>
+        <text x="0" y="55" class="subtitle">REPO COINS</text>
+      </g>
+      
+      <g transform="translate(820, 60)">
+        <text x="0" y="0" class="label">REPOSITORIES</text>
+        <text x="0" y="35" class="value-huge" fill="${colors.accentGreen}">${stats.publicRepos}</text>
+        <text x="0" y="55" class="subtitle">CAMPAIGN LEVEL</text>
+      </g>
+    </svg>
+  `;
+}
+
+export function generateCampaignScene(): string {
+  const W = 1000, H = 300;
+  const missions = [
+    { id: 'M-01', name: 'MOBILEHUB STORE', diff: 3, tech: 'REACT, NODE, TS' },
+    { id: 'M-02', name: 'SPITCH ASSISTANT', diff: 4, tech: 'PYTHON, FastAPI, AI' },
+    { id: 'M-03', name: 'HOPE TRAVEL', diff: 2, tech: 'NEXT.JS, TAILWIND' },
+    { id: 'M-04', name: 'AGRI-INTEL AI', diff: 5, tech: 'PYTHON, TF, GCP' },
+  ];
+  
+  let missionUI = '';
+  missions.forEach((m, i) => {
+    const y = 50 + (i * 55);
+    let stars = '';
+    for(let s=0; s<5; s++) {
+      stars += `<path d="M ${s*15} 0 L ${s*15+4} 10 L ${s*15+14} 10 L ${s*15+6} 16 L ${s*15+9} 26 L ${s*15} 20 L ${s*15-9} 26 L ${s*15-6} 16 L ${s*15-14} 10 L ${s*15-4} 10 Z" fill="${s < m.diff ? colors.accentGold : colors.border}" transform="scale(0.5) translate(0, -5)" />`;
+    }
+    
+    missionUI += `
+      <rect x="40" y="${y}" width="920" height="45" fill="${colors.bgDark}" stroke="${colors.border}" stroke-width="1" />
+      <rect x="40" y="${y}" width="4" height="45" fill="${colors.accentBlue}" />
+      
+      <text x="60" y="${y + 27}" class="label" fill="${colors.textMuted}">${m.id}</text>
+      <text x="140" y="${y + 27}" class="value">${m.name}</text>
+      
+      <text x="500" y="${y + 27}" class="label">TECH:</text>
+      <text x="550" y="${y + 27}" class="subtitle" fill="${colors.accentGreen}">${m.tech}</text>
+      
+      <g transform="translate(800, ${y + 24})">
+        ${stars}
+      </g>
+      <text x="900" y="${y + 27}" class="label" fill="${colors.accentGold}">[ CLEARED ]</text>
+    `;
+  });
 
   return `
-    <svg width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" xmlns="http://www.w3.org/2000/svg">
+    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
+      <rect width="${W}" height="${H}" fill="${colors.bg}" />
+      ${renderUIBox(20, 20, 960, 260, 'PROJECT CAMPAIGN - COMPLETED MISSIONS')}
+      ${missionUI}
+    </svg>
+  `;
+}
 
-      <!-- ========================================== -->
-      <!-- BACKGROUND GRADIENTS (SEAMLESS TRANSITION) -->
-      <!-- ========================================== -->
-      <rect x="0" y="0" width="${WIDTH}" height="1000" fill="url(#skyGrad)" />
-      <rect x="0" y="1000" width="${WIDTH}" height="1000" fill="url(#sunsetGrad)" />
-      <rect x="0" y="2000" width="${WIDTH}" height="1000" fill="url(#nightGrad)" />
-      <rect x="0" y="3000" width="${WIDTH}" height="800" fill="url(#dungeonGrad)" />
+export function generateArsenalScene(): string {
+  const W = 1000, H = 250;
+  const skills = [
+    { name: 'PYTHON', role: 'HEAVY ARTILLERY' },
+    { name: 'MACHINE LEARNING', role: 'TARGET PREDICTION' },
+    { name: 'TENSORFLOW', role: 'NEURAL BARRAGE' },
+    { name: 'FASTAPI', role: 'RAPID FIRE API' },
+    { name: 'REACT', role: 'COMPONENT SPLIT' },
+    { name: 'NEXT.JS', role: 'SERVER RENDER BEAM' },
+    { name: 'TYPESCRIPT', role: 'STATIC TYPING SHIELD' },
+    { name: 'SQL', role: 'DATA EXTRACTION' }
+  ];
 
-      <!-- Parallax Clouds (Top 2000px) -->
-      <g class="animate-cloud" style="animation-duration: 40s;" opacity="0.6">
-        <path d="M 100 100 Q 150 50 200 100 Q 250 80 300 120 Q 350 160 250 160 L 100 160 Q 50 160 50 120 Q 50 80 100 100 Z" fill="#fff" />
-        <path d="M 600 800 Q 650 750 700 800 Q 750 780 800 820 Q 850 860 750 860 L 600 860 Q 550 860 550 820 Q 550 780 600 800 Z" fill="#fff" />
-        <path d="M 200 1500 Q 250 1450 300 1500 Q 350 1480 400 1520 Q 450 1560 350 1560 L 200 1560 Q 150 1560 150 1520 Q 150 1480 200 1500 Z" fill="#fef3c7" opacity="0.8"/>
+  let slots = '';
+  skills.forEach((skill, i) => {
+    const row = Math.floor(i / 4);
+    const col = i % 4;
+    const x = 40 + (col * 230);
+    const y = 60 + (row * 80);
+    
+    slots += `
+      <g transform="translate(${x}, ${y})">
+        <rect width="210" height="60" fill="${colors.bgDark}" stroke="${colors.border}" stroke-width="2" rx="2" />
+        <rect x="0" y="0" width="20" height="60" fill="${colors.border}" rx="2" />
+        <text x="30" y="25" class="label" fill="${colors.accentGold}">${skill.name}</text>
+        <text x="30" y="45" class="subtitle">${skill.role}</text>
       </g>
-      <g class="animate-cloud" style="animation-duration: 60s; animation-delay: -20s;" opacity="0.4">
-        <path d="M 500 300 Q 550 250 600 300 Q 650 280 700 320 Q 750 360 650 360 L 500 360 Q 450 360 450 320 Q 450 280 500 300 Z" fill="#fff" transform="scale(1.5) translate(-100, -50)" />
-        <path d="M -50 1100 Q 0 1050 50 1100 Q 100 1080 150 1120 Q 200 1160 100 1160 L -50 1160 Q -100 1160 -100 1120 Q -100 1080 -50 1100 Z" fill="#fef3c7" transform="scale(2) translate(50, -600)" />
-      </g>
+    `;
+  });
 
-      <!-- ========================================== -->
-      <!-- SECTION 1: TOP HUD & LAUNCH (0 - 600)      -->
-      <!-- ========================================== -->
-      <g transform="translate(30, 40)">
-        <text x="0" y="0" class="hud-label">PLAYER</text>
-        <text x="0" y="30" class="hud-text">${stats.name.toUpperCase()}</text>
-        <text x="300" y="0" class="hud-label">SCORE</text>
-        <text x="300" y="30" class="hud-text">${stats.totalCommits}</text>
-        <text x="500" y="0" class="hud-label">COINS</text>
-        <text x="500" y="30" class="hud-text">${stats.totalStars}</text>
-        <text x="700" y="0" class="hud-label">LEVEL</text>
-        <text x="700" y="30" class="hud-text">AI ENG</text>
-      </g>
+  return `
+    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+      ${getCommonStyles()}
+      <rect width="${W}" height="${H}" fill="${colors.bg}" />
+      ${renderUIBox(20, 20, 960, 210, 'SKILL ARSENAL & ABILITIES')}
+      ${slots}
+    </svg>
+  `;
+}
 
-      <!-- Giant Grassy Cliff for Slingshot -->
-      <path d="M -50 600 L 250 600 C 250 600, 300 600, 350 700 L -50 700 Z" fill="url(#grassGrad)" stroke="#166534" stroke-width="5" />
-      <path d="M -50 610 L 245 610 C 245 610, 290 610, 340 700" fill="none" stroke="#4d7c0f" stroke-width="20" />
-
-      <!-- Giant Slingshot -->
-      <g transform="translate(120, 560)">
-        <path d="M -30 -80 L -70 -20" stroke="#451a03" stroke-width="10" stroke-linecap="round" />
-        <path d="M 0 40 L 0 -40 L -30 -80 M 0 -40 L 30 -80" fill="none" stroke="url(#woodGrad)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" filter="url(#dropShadow)"/>
-        <path d="M -80 -30 Q -70 -10 -60 -30" fill="none" stroke="#78350f" stroke-width="16" stroke-linecap="round" />
-        <path d="M 30 -80 L -55 -20" stroke="#78350f" stroke-width="10" stroke-linecap="round" />
-      </g>
-
-      <!-- Player Bird -->
-      ${renderBird(50, 520, '#ef4444', '#fca5a5', 'red', '&lt;/&gt;')}
-
-      <!-- Trajectory -->
-      <g fill="#ffffff" opacity="0.8">
-        <circle cx="150" cy="480" r="5" />
-        <circle cx="220" cy="440" r="5" />
-        <circle cx="310" cy="420" r="5" />
-        <circle cx="410" cy="430" r="5" />
-        <circle cx="510" cy="460" r="5" />
-        <circle cx="590" cy="510" r="5" />
-        <circle cx="650" cy="580" r="5" />
-      </g>
-
-      <!-- Target Bug Fortress -->
-      <path d="M 500 700 C 500 700, 550 650, 850 650 L 850 800 L 500 800 Z" fill="url(#grassGrad)" stroke="#166534" stroke-width="5" />
-      <g transform="translate(580, 480)">
-        ${renderBlock(0, 130, 200, 40, 'stone')}
-        ${renderBlock(20, 30, 30, 100, 'wood')}
-        ${renderBlock(150, 30, 30, 100, 'wood')}
-        ${renderBlock(70, 70, 60, 60, 'glass')}
-        ${renderBlock(10, 0, 180, 30, 'stone')}
-        ${renderBug(100, 50, 20)}
-        ${renderBug(35, 110, 16)}
-        ${renderBug(165, 110, 16)}
-      </g>
-
-      <!-- ========================================== -->
-      <!-- SECTION 2: PROJECT WORLDS (700 - 2000)     -->
-      <!-- ========================================== -->
+export function generateBossScene(): string {
+  const W = 1000, H = 300;
+  return `
+    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+      ${getCommonStyles()}
+      <rect width="${W}" height="${H}" fill="${colors.bg}" />
       
-      <!-- Winding terrain linking the levels -->
-      <path d="M 850 750 C 600 750, 600 900, 400 950 C 150 1000, 150 1200, -50 1200 L -50 1400 L 850 1400 Z" fill="url(#grassGrad)" stroke="#166534" stroke-width="5" />
-
-      <!-- Level 1: MobileHub (Destroyed) -->
-      <g transform="translate(200, 850)">
-        <g opacity="0.6">
-          <path d="M -50 100 L 0 50 L 50 100 Z" fill="url(#woodGrad)" transform="rotate(45)" />
-          <path d="M 50 100 L 100 50 L 150 100 Z" fill="url(#stoneGrad)" transform="rotate(-30) translate(0, 100)" />
-          ${renderBug(50, 80, 16)}
-        </g>
-        <path d="M 0 0 L 0 -100 M 140 0 L 140 -100" stroke="#451a03" stroke-width="4" stroke-dasharray="5,5" />
-        <rect x="-20" y="0" width="180" height="80" rx="10" fill="url(#woodGrad)" stroke="#451a03" stroke-width="5" filter="url(#dropShadow)"/>
-        <text x="70" y="35" class="hud-text" text-anchor="middle" font-size="22">MOBILEHUB</text>
-        ${renderStars(35, 30, 3)}
-      </g>
-
-      <!-- Level 2: Spitch (Cliffside) -->
-      <path d="M -50 1400 C 400 1400, 600 1300, 850 1300 L 850 1800 L -50 1800 Z" fill="url(#grassGrad)" stroke="#166534" stroke-width="5" />
-      <g transform="translate(500, 1150)">
-        <g opacity="0.6">
-          ${renderBlock(-40, 50, 80, 100, 'stone')}
-          ${renderBlock(40, 90, 80, 60, 'glass')}
-          ${renderBug(80, 70, 16)}
-        </g>
-        <path d="M 0 0 L 0 -100 M 140 0 L 140 -100" stroke="#451a03" stroke-width="4" stroke-dasharray="5,5" />
-        <rect x="-20" y="0" width="180" height="80" rx="10" fill="url(#woodGrad)" stroke="#451a03" stroke-width="5" filter="url(#dropShadow)"/>
-        <text x="70" y="35" class="hud-text" text-anchor="middle" font-size="22">SPITCH ASSIST</text>
-        ${renderStars(35, 30, 3)}
-      </g>
-
-      <!-- Level 3: Hope Travel (Floating Islands) -->
-      <g transform="translate(150, 1500)">
-        <path d="M -100 150 C -50 200, 250 200, 300 150 C 250 100, -50 100, -100 150 Z" fill="#fff" opacity="0.8" filter="url(#glow)"/>
-        <path d="M -100 150 C -50 200, 250 200, 300 150 C 250 140, -50 140, -100 150 Z" fill="url(#grassGrad)" stroke="#166534" stroke-width="3" />
-        
-        <g opacity="0.6">
-          ${renderBlock(20, 50, 40, 90, 'glass')}
-          ${renderBlock(140, 50, 40, 90, 'glass')}
-          ${renderBlock(0, 30, 200, 20, 'stone')}
-          ${renderBug(100, 120, 16)}
-        </g>
-        
-        <path d="M 30 0 L 30 -100 M 170 0 L 170 -100" stroke="#451a03" stroke-width="4" stroke-dasharray="5,5" />
-        <rect x="10" y="0" width="180" height="80" rx="10" fill="url(#woodGrad)" stroke="#451a03" stroke-width="5" filter="url(#dropShadow)"/>
-        <text x="100" y="35" class="hud-text" text-anchor="middle" font-size="22">HOPE TRAVEL</text>
-        ${renderStars(65, 30, 3)}
-      </g>
-
-      <!-- Level 4: AgriIntel (Farm Theme) -->
-      <path d="M 850 1700 C 600 1700, 400 1800, -50 1850 L -50 2100 L 850 2100 Z" fill="url(#dirtGrad)" stroke="#451a03" stroke-width="5" />
-      <path d="M 850 1700 C 600 1700, 400 1800, -50 1850 L -50 1880 C 400 1830, 600 1730, 850 1730 Z" fill="url(#grassGrad)" />
+      <!-- Warning Background -->
+      <rect width="${W}" height="${H}" fill="${colors.accentRed}" opacity="0.05" class="animate-pulse" />
       
-      <g transform="translate(550, 1750)">
-        <g opacity="0.6">
-          ${renderBlock(-20, 40, 60, 100, 'wood')}
-          ${renderBlock(100, 40, 60, 100, 'wood')}
-          <path d="M -40 40 L 70 -20 L 180 40 Z" fill="#ef4444" stroke="#7f1d1d" stroke-width="3"/>
-          ${renderBug(70, 120, 16)}
-        </g>
-        <path d="M 0 0 L 0 -100 M 140 0 L 140 -100" stroke="#451a03" stroke-width="4" stroke-dasharray="5,5" />
-        <rect x="-20" y="0" width="180" height="80" rx="10" fill="url(#woodGrad)" stroke="#451a03" stroke-width="5" filter="url(#dropShadow)"/>
-        <text x="70" y="35" class="hud-text" text-anchor="middle" font-size="22">AGRI INTEL</text>
-        ${renderStars(35, 30, 3)}
-      </g>
+      ${renderUIBox(20, 20, 960, 260, 'FINAL BOSS ENCOUNTER')}
 
-      <!-- ========================================== -->
-      <!-- SECTION 3: WORLD MAP (2100 - 2500)         -->
-      <!-- ========================================== -->
-      <rect x="0" y="2100" width="${WIDTH}" height="400" fill="url(#grassGrad)" />
-      
-      <path d="M -50 2050 C 200 2150, 400 2100, 600 2200 S 200 2300, 400 2400 S 850 2450, 850 2550" fill="none" stroke="url(#dirtGrad)" stroke-width="80" stroke-linecap="round" />
-      <path d="M -50 2050 C 200 2150, 400 2100, 600 2200 S 200 2300, 400 2400 S 850 2450, 850 2550" fill="none" stroke="#fef3c7" stroke-width="8" stroke-dasharray="20, 20" stroke-linecap="round" />
-
-      <!-- Map Scenery -->
-      <path d="M 100 2200 L 150 2100 L 200 2200 Z" fill="#065f46" filter="url(#dropShadow)" />
-      <path d="M 150 2250 L 200 2150 L 250 2250 Z" fill="#047857" filter="url(#dropShadow)" />
-      <path d="M 600 2350 L 700 2150 L 800 2350 Z" fill="url(#stoneGrad)" stroke="#334155" stroke-width="3" filter="url(#dropShadow)" />
-      <path d="M 650 2150 L 700 2150 L 750 2250 Z" fill="#fff" opacity="0.8" />
-      
-      <circle cx="580" cy="2200" r="25" fill="#ef4444" stroke="#000" stroke-width="5" filter="url(#dropShadow)" />
-      <circle cx="380" cy="2400" r="25" fill="#ef4444" stroke="#000" stroke-width="5" filter="url(#dropShadow)" />
-      
-      <!-- Player Map Icon -->
-      <g transform="translate(480, 2270)" class="animate-bird">
-        <circle cx="0" cy="0" r="20" fill="#ef4444" stroke="#000" stroke-width="4" filter="url(#dropShadow)" />
-        <path d="M -10 5 L 10 5 L 0 15 Z" fill="#fbbf24" stroke="#000" stroke-width="2" />
-        <path d="M -12 -5 L -2 -2 L 2 -2 L 12 -5" fill="none" stroke="#000" stroke-width="4" />
-      </g>
-
-      <!-- ========================================== -->
-      <!-- SECTION 4: CHARACTER SELECT (2500 - 2900)  -->
-      <!-- ========================================== -->
-      <path d="M -50 2450 C 400 2550, 850 2450, 850 2600 L 850 2900 L -50 2900 Z" fill="url(#grassGrad)" stroke="#166534" stroke-width="5" />
-      <text x="400" y="2600" class="title-text" text-anchor="middle">THE FLOCK</text>
-
-      ${renderBird(150, 2750, '#1e293b', '#475569', 'black', 'PYTHON')}
-      ${renderBird(310, 2750, '#f59e0b', '#fde047', 'yellow', 'ML')}
-      ${renderBird(470, 2750, '#38bdf8', '#bae6fd', 'blue', 'REACT')}
-      ${renderBird(630, 2750, '#ffffff', '#e2e8f0', 'white', 'FASTAPI')}
-
-      <!-- ========================================== -->
-      <!-- SECTION 5: FINAL BOSS (2900 - 3400)        -->
-      <!-- ========================================== -->
-      <!-- Lightning -->
-      <path d="M 600 2900 L 550 3050 L 580 3080 L 500 3300" fill="none" stroke="#fde047" stroke-width="8" filter="url(#glow)" class="animate-lightning" />
-      <path d="M 200 2950 L 250 3100 L 220 3120 L 300 3300" fill="none" stroke="#fde047" stroke-width="5" filter="url(#glow)" class="animate-lightning" style="animation-delay: 2s;" />
-
-      <text x="400" y="3000" class="title-text" fill="#ef4444" text-anchor="middle" filter="url(#glow)">FINAL BOSS: GATE 2027</text>
-      
       <!-- Boss Health Bar -->
-      <g transform="translate(100, 3030)">
-        <rect width="600" height="30" rx="15" fill="#0f172a" stroke="#fff" stroke-width="4" filter="url(#dropShadow)" />
-        <rect x="5" y="5" width="590" height="20" rx="10" fill="#ef4444" />
+      <g transform="translate(100, 60)">
+        <text x="400" y="-10" class="label" text-anchor="middle" fill="${colors.accentRed}">BOSS: GATE 2027 FORTRESS [HP: 9999/9999]</text>
+        <rect width="800" height="20" fill="#000" stroke="${colors.border}" stroke-width="2" />
+        <rect x="2" y="2" width="796" height="16" fill="url(#redGrad)" />
       </g>
 
-      <!-- Giant Fortress -->
-      <path d="M -50 3300 L 850 3300 L 850 3400 L -50 3400 Z" fill="url(#stoneGrad)" stroke="#1e293b" stroke-width="10" />
-      <g transform="translate(200, 3150)">
-        ${renderBlock(0, 0, 400, 150, 'stone')}
-        ${renderBlock(-30, -50, 60, 80, 'stone')}
-        ${renderBlock(100, -50, 60, 80, 'stone')}
-        ${renderBlock(230, -50, 60, 80, 'stone')}
-        ${renderBlock(370, -50, 60, 80, 'stone')}
+      <!-- The Boss Architecture (Stylized) -->
+      <g transform="translate(300, 120)">
+        <!-- Core Structure -->
+        <path d="M 100 130 L 150 20 L 250 20 L 300 130 Z" fill="#0F172A" stroke="${colors.accentRed}" stroke-width="3" />
+        <rect x="180" y="40" width="40" height="40" rx="20" fill="#000" stroke="${colors.accentRed}" stroke-width="2" />
+        <!-- Glowing Eye -->
+        <circle cx="200" cy="60" r="10" fill="${colors.accentRed}" class="animate-pulse" />
+        
+        <!-- Energy Pillars -->
+        <rect x="40" y="60" width="30" height="90" fill="#1E293B" stroke="${colors.accentRed}" stroke-width="2" />
+        <rect x="330" y="60" width="30" height="90" fill="#1E293B" stroke="${colors.accentRed}" stroke-width="2" />
+        
+        <!-- Lightning Arcs -->
+        <path d="M 55 60 L 150 40 M 345 60 L 250 40" stroke="${colors.accentBlue}" stroke-width="2" class="animate-dash" stroke-dasharray="10,20" opacity="0.7" />
       </g>
+    </svg>
+  `;
+}
 
-      <!-- Giant Bug King -->
-      <g transform="translate(400, 3050)" class="animate-boss">
-        <circle cx="0" cy="0" r="80" fill="#84cc16" stroke="#3f6212" stroke-width="6" filter="url(#dropShadow)" />
-        <circle cx="-30" cy="-20" r="20" fill="#ffffff" />
-        <circle cx="30" cy="-20" r="20" fill="#ffffff" />
-        <circle cx="-30" cy="-20" r="8" fill="#ef4444" />
-        <circle cx="30" cy="-20" r="8" fill="#ef4444" />
-        <ellipse cx="0" cy="30" rx="35" ry="20" fill="#65a30d" stroke="#3f6212" stroke-width="4" />
-        <path d="M -50 -80 L -20 -50 M 50 -80 L 20 -50" stroke="#3f6212" stroke-width="10" stroke-linecap="round" />
-        <path d="M -40 -80 L -50 -120 L -20 -100 L 0 -130 L 20 -100 L 50 -120 L 40 -80 Z" fill="${colors.star}" stroke="#b45309" stroke-width="5" />
+export function generateAchievementsScene(): string {
+  const W = 1000, H = 200;
+  const trophies = ['AI ENGINEER', 'FULL STACK DEV', 'OPEN SOURCE', 'GOOGLE GENAI'];
+  
+  let layout = '';
+  trophies.forEach((t, i) => {
+    const x = 120 + (i * 220);
+    layout += `
+      <g transform="translate(${x}, 90)">
+        <path d="M -30 0 L 30 0 L 20 40 L -20 40 Z" fill="url(#goldGrad)" stroke="#B45309" stroke-width="2" filter="url(#glowGold)" />
+        <path d="M -20 40 L 20 40 L 10 50 L -10 50 Z" fill="#D97706" />
+        
+        <rect x="-60" y="60" width="120" height="20" fill="${colors.bgDark}" stroke="${colors.border}" stroke-width="1" />
+        <text x="0" y="74" class="label" text-anchor="middle">${t}</text>
       </g>
+    `;
+  });
 
-      <!-- ========================================== -->
-      <!-- SECTION 6: TROPHY ROOM (3400 - 3800)       -->
-      <!-- ========================================== -->
-      <!-- Dungeon Interior Walls -->
-      <path d="M 0 3400 L 800 3400 L 800 3800 L 0 3800 Z" fill="url(#dungeonGrad)" />
-      
-      <!-- Torches -->
-      <g transform="translate(150, 3500)" filter="url(#glow)">
-        <path d="M -10 40 L 10 40 L 5 80 L -5 80 Z" fill="url(#woodGrad)" />
-        <circle cx="0" cy="20" r="25" fill="#f59e0b" opacity="0.6" />
-        <path d="M -15 30 Q 0 0 15 30 Q 0 45 -15 30 Z" fill="#ef4444" />
-        <path d="M -10 35 Q 0 10 10 35 Q 0 45 -10 35 Z" fill="#fde047" />
-      </g>
-      <g transform="translate(650, 3500)" filter="url(#glow)">
-        <path d="M -10 40 L 10 40 L 5 80 L -5 80 Z" fill="url(#woodGrad)" />
-        <circle cx="0" cy="20" r="25" fill="#f59e0b" opacity="0.6" />
-        <path d="M -15 30 Q 0 0 15 30 Q 0 45 -15 30 Z" fill="#ef4444" />
-        <path d="M -10 35 Q 0 10 10 35 Q 0 45 -10 35 Z" fill="#fde047" />
-      </g>
-
-      <text x="400" y="3520" class="title-text" text-anchor="middle">TROPHY ROOM</text>
-
-      <!-- Giant Wooden Shelf -->
-      <rect x="50" y="3650" width="700" height="40" rx="10" fill="url(#woodGrad)" stroke="#451a03" stroke-width="6" filter="url(#dropShadow)" />
-      
-      <!-- Trophies -->
-      <g transform="translate(150, 3560)">
-        <path d="M -35 0 Q -50 0 -40 25 Q -30 40 0 40 L 0 90 L -30 90 L 30 90 L 0 90 L 0 40 Q 30 40 40 25 Q 50 0 35 0 Z" fill="${colors.star}" stroke="#b45309" stroke-width="4" filter="url(#dropShadow)" />
-        <rect x="-80" y="120" width="160" height="30" rx="4" fill="#0f172a" />
-        <text y="142" class="hud-text" font-size="16" text-anchor="middle">AI ENGINEER</text>
-      </g>
-      
-      <g transform="translate(400, 3590)">
-        <circle cx="0" cy="20" r="40" fill="${colors.star}" stroke="#b45309" stroke-width="6" filter="url(#dropShadow)" />
-        <path d="M -20 -60 L 20 -60 L 30 0 L -30 0 Z" fill="#ef4444" filter="url(#dropShadow)" />
-        <rect x="-80" y="90" width="160" height="30" rx="4" fill="#0f172a" />
-        <text y="112" class="hud-text" font-size="16" text-anchor="middle">FULL STACK</text>
-      </g>
-
-      <g transform="translate(650, 3580)">
-        <path d="M -30 -10 L 30 -10 L 45 20 L 0 70 L -45 20 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="6" filter="url(#dropShadow)" />
-        <rect x="-80" y="100" width="160" height="30" rx="4" fill="#0f172a" />
-        <text y="122" class="hud-text" font-size="16" text-anchor="middle">GOOGLE GENAI</text>
-      </g>
-
+  return `
+    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+      ${getCommonStyles()}
+      <rect width="${W}" height="${H}" fill="${colors.bg}" />
+      ${renderUIBox(20, 20, 960, 160, 'ACHIEVEMENTS UNLOCKED')}
+      ${layout}
     </svg>
   `;
 }
