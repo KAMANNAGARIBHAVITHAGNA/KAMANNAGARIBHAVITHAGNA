@@ -94,10 +94,26 @@ export function generateGrid1(stats: UserStats): string {
 
 // GRID 2: TOTAL DATA / COMMITS (Background: Demogorgon in Fire)
 export function generateGrid2(stats: UserStats): string {
+  const repos = stats.topRepos.slice(0, 4);
+  
+  const renderFloatingRepo = (x: number, y: number, repo: any, delay: number, rotation: number) => `
+    <g transform="translate(${x}, ${y}) rotate(${rotation})" style="animation: float 4s ease-in-out infinite ${delay}s">
+      <rect x="-85" y="-35" width="170" height="70" fill="rgba(69, 10, 10, 0.7)" stroke="#ef4444" stroke-width="2" style="filter: drop-shadow(0 0 8px #ef4444);" rx="5" />
+      <text x="0" y="5" class="text-repo" fill="#fca5a5" text-anchor="middle" font-size="22" style="text-shadow: 0 0 5px #ef4444;">${repo.name}</text>
+      <text x="0" y="25" class="text-small" fill="#fef08a" text-anchor="middle" font-size="16">⭐ ${repo.stars}</text>
+    </g>
+  `;
+
   return `
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
       ${getBackgroundImage('grid02')}
+      
+      <!-- Repos floating from the hand (Hand is around x=480, y=320) -->
+      ${repos[1] ? renderFloatingRepo(360, 220, repos[1], 0, -15) : ''}
+      ${repos[2] ? renderFloatingRepo(420, 130, repos[2], 0.5, -5) : ''}
+      ${repos[3] ? renderFloatingRepo(540, 110, repos[3], 1.2, 5) : ''}
+      ${repos[0] ? renderFloatingRepo(620, 190, repos[0], 0.8, 15) : ''}
     </svg>
   `;
 }
