@@ -1,0 +1,91 @@
+<svg width="800" height="300" viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+      
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap');
+    
+    .pixel-text {
+      font-family: 'Press Start 2P', monospace;
+      fill: #FFFFFF;
+    }
+    .title {
+      font-size: 24px;
+      fill: #FF6B35;
+    }
+    .subtitle {
+      font-size: 14px;
+      fill: #FFB703;
+    }
+    .stat-label {
+      font-size: 10px;
+      fill: #94A3B8;
+    }
+    .stat-value {
+      font-size: 16px;
+      fill: #06D6A0;
+    }
+    
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    @keyframes slideBg {
+      from { background-position: 0 0; }
+      to { background-position: 100% 0; }
+    }
+    
+    .animate-float { animation: float 3s ease-in-out infinite; }
+    .animate-pulse { animation: pulse 2s steps(2, start) infinite; }
+  </style>
+
+      <defs>
+        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <rect width="40" height="40" fill="#0B1020" />
+          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#111827" stroke-width="2"/>
+        </pattern>
+      </defs>
+      
+      <rect width="800" height="300" fill="url(#grid)" />
+      
+      <!-- Animated Clouds (Simple pixel art representation) -->
+      <g class="animate-float" style="animation-duration: 8s; opacity: 0.5;">
+        <rect x="100" y="50" width="60" height="20" fill="white" />
+        <rect x="120" y="30" width="40" height="20" fill="white" />
+        <rect x="80" y="70" width="100" height="20" fill="white" />
+      </g>
+      
+      <g class="animate-float" style="animation-duration: 6s; animation-delay: 2s; opacity: 0.3;">
+        <rect x="600" y="80" width="80" height="20" fill="white" />
+        <rect x="620" y="60" width="40" height="20" fill="white" />
+        <rect x="580" y="100" width="120" height="20" fill="white" />
+      </g>
+
+      <!-- Logo & Title -->
+      <text x="400" y="120" class="pixel-text title" text-anchor="middle" font-size="36" filter="drop-shadow(4px 4px 0px #CC4A18)">
+        ANGRY DEV
+      </text>
+      
+      <text x="400" y="160" class="pixel-text subtitle" text-anchor="middle">
+        DEVELOPER VS BUGS
+      </text>
+
+      <!-- Player Info Bar -->
+      <g transform="translate(150, 220)">
+        <rect width="500" height="40" rx="5" fill="#111827" stroke="#334155" stroke-width="4" />
+        <text x="20" y="27" class="pixel-text" font-size="12">LVL 19: AI ENGINEER</text>
+        
+        <!-- EXP Bar -->
+        <rect x="250" y="12" width="230" height="16" fill="#0B1020" />
+        <rect x="250" y="12" width="180" height="16" fill="#06D6A0" />
+        <text x="260" y="24" class="pixel-text" font-size="10" fill="#0B1020">EXP: 75%</text>
+      </g>
+      
+      <!-- Click Start prompt -->
+      <text x="400" y="290" class="pixel-text animate-pulse" text-anchor="middle" font-size="10" fill="#3A86FF">
+        INSERT COIN TO CONTINUE...
+      </text>
+    </svg>

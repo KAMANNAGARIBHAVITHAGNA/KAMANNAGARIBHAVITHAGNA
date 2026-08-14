@@ -1,0 +1,72 @@
+<svg width="800" height="200" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+      
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap');
+    
+    .pixel-text {
+      font-family: 'Press Start 2P', monospace;
+      fill: #FFFFFF;
+    }
+    .title {
+      font-size: 24px;
+      fill: #FF6B35;
+    }
+    .subtitle {
+      font-size: 14px;
+      fill: #FFB703;
+    }
+    .stat-label {
+      font-size: 10px;
+      fill: #94A3B8;
+    }
+    .stat-value {
+      font-size: 16px;
+      fill: #06D6A0;
+    }
+    
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    @keyframes slideBg {
+      from { background-position: 0 0; }
+      to { background-position: 100% 0; }
+    }
+    
+    .animate-float { animation: float 3s ease-in-out infinite; }
+    .animate-pulse { animation: pulse 2s steps(2, start) infinite; }
+  </style>
+
+      <rect width="800" height="200" fill="#0B1020" />
+      
+      <rect x="20" y="20" width="760" height="160" fill="#111827" stroke="#334155" stroke-width="4" />
+      
+      <text x="50" y="60" class="pixel-text title">PLAYER STATS</text>
+      
+      <g transform="translate(50, 100)">
+        <!-- Followers -->
+        <rect x="0" y="0" width="150" height="60" fill="#0B1020" stroke="#334155" stroke-width="2" />
+        <text x="10" y="25" class="pixel-text stat-label">FOLLOWERS</text>
+        <text x="10" y="45" class="pixel-text stat-value">1</text>
+
+        <!-- Repos -->
+        <rect x="170" y="0" width="150" height="60" fill="#0B1020" stroke="#334155" stroke-width="2" />
+        <text x="180" y="25" class="pixel-text stat-label">REPOSITORIES</text>
+        <text x="180" y="45" class="pixel-text stat-value" fill="#3A86FF">16</text>
+
+        <!-- Stars -->
+        <rect x="340" y="0" width="150" height="60" fill="#0B1020" stroke="#334155" stroke-width="2" />
+        <text x="350" y="25" class="pixel-text stat-label">STARS EARNED</text>
+        <text x="350" y="45" class="pixel-text stat-value" fill="#FFB703">1</text>
+
+        <!-- Commits -->
+        <rect x="510" y="0" width="150" height="60" fill="#0B1020" stroke="#334155" stroke-width="2" />
+        <text x="520" y="25" class="pixel-text stat-label">COMMITS</text>
+        <text x="520" y="45" class="pixel-text stat-value" fill="#EF476F">672</text>
+      </g>
+    </svg>

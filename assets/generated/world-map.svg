@@ -1,0 +1,72 @@
+<svg width="800" height="250" viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg">
+      
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap');
+    
+    .pixel-text {
+      font-family: 'Press Start 2P', monospace;
+      fill: #FFFFFF;
+    }
+    .title {
+      font-size: 24px;
+      fill: #FF6B35;
+    }
+    .subtitle {
+      font-size: 14px;
+      fill: #FFB703;
+    }
+    .stat-label {
+      font-size: 10px;
+      fill: #94A3B8;
+    }
+    .stat-value {
+      font-size: 16px;
+      fill: #06D6A0;
+    }
+    
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    @keyframes slideBg {
+      from { background-position: 0 0; }
+      to { background-position: 100% 0; }
+    }
+    
+    .animate-float { animation: float 3s ease-in-out infinite; }
+    .animate-pulse { animation: pulse 2s steps(2, start) infinite; }
+  </style>
+
+      <rect width="800" height="250" fill="#0B1020" />
+      
+      <text x="400" y="40" class="pixel-text title" text-anchor="middle">WORLD SELECT</text>
+
+      <!-- Map Routes -->
+      <path d="M 120 120 L 280 160 L 480 100 L 680 150" fill="none" stroke="#334155" stroke-width="4" stroke-dasharray="8,8" />
+      
+      <!-- Nodes -->
+      <g transform="translate(120, 120)">
+        <circle r="20" fill="#06D6A0" stroke="white" stroke-width="4" />
+        <text y="40" class="pixel-text" font-size="10" text-anchor="middle">W1: MobileHub</text>
+      </g>
+      
+      <g transform="translate(280, 160)">
+        <circle r="20" fill="#06D6A0" stroke="white" stroke-width="4" />
+        <text y="40" class="pixel-text" font-size="10" text-anchor="middle">W2: Spitch Is.</text>
+      </g>
+
+      <g transform="translate(480, 100)">
+        <circle r="20" fill="#06D6A0" stroke="white" stroke-width="4" />
+        <text y="40" class="pixel-text" font-size="10" text-anchor="middle">W3: Sky City</text>
+      </g>
+
+      <g transform="translate(680, 150)" class="animate-pulse">
+        <circle r="25" fill="#EF476F" stroke="white" stroke-width="4" />
+        <text y="45" class="pixel-text" font-size="10" text-anchor="middle" fill="#EF476F">BOSS: GATE 2027</text>
+      </g>
+    </svg>
