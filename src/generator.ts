@@ -38,20 +38,19 @@ export function writeSvg(filename: string, content: string) {
   fs.writeFileSync(path.join(dir, filename), content);
 }
 
-// GRID 1: HERO & CLEARANCE (Background: Kids on Bikes)
+// GRID 1: HERO & CLEARANCE (Background: Painted Wall)
 export function generateGrid1(stats: UserStats): string {
   return `
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
       ${getBackgroundImage('grid01')}
       
-      <!-- Overlay box -->
-      <g transform="translate(50, 50)">
-        <rect width="500" height="200" fill="rgba(0,0,0,0.7)" stroke="#ef4444" stroke-width="3" rx="10" />
-        <text x="250" y="50" class="text-title">KAMANNAGARI BHAVITHAGNA</text>
-        <text x="30" y="100" class="text-body">> CLASSIFICATION: AI/ML ENGINEER</text>
-        <text x="30" y="140" class="text-body">> CLEARANCE LEVEL: AI-07</text>
-        <text x="30" y="180" class="text-body">> TARGET: GATE 2027<tspan class="blink">_</tspan></text>
+      <!-- Overlay box (Moved to bottom right so it doesn't cover the painted name) -->
+      <g transform="translate(680, 250)">
+        <rect width="480" height="130" fill="rgba(0,0,0,0.8)" stroke="#ef4444" stroke-width="3" rx="10" />
+        <text x="20" y="40" class="text-body">> CLASSIFICATION: AI/ML ENGINEER</text>
+        <text x="20" y="80" class="text-body">> CLEARANCE LEVEL: AI-07</text>
+        <text x="20" y="120" class="text-body">> TARGET: GATE 2027<tspan class="blink">_</tspan></text>
       </g>
     </svg>
   `;
