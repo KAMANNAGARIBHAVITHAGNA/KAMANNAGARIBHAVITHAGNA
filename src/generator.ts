@@ -98,74 +98,36 @@ export function generateGrid2(stats: UserStats): string {
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
       ${getBackgroundImage('grid02')}
-      <rect width="${W}" height="${H}" fill="rgba(0,0,0,0.4)" />
-      
-      <g transform="translate(700, 100)">
-        <rect width="400" height="150" fill="rgba(20,0,0,0.8)" stroke="#ef4444" stroke-width="4" rx="10" />
-        <text x="200" y="50" class="text-title">SYSTEM DATA LEAK</text>
-        <text x="200" y="100" class="text-repo" text-anchor="middle" font-size="40">${stats.totalCommits}+ COMMITS DETECTED</text>
-      </g>
     </svg>
   `;
 }
 
 // GRID 3: TOP REPOSITORIES (Background: Group Looking Down)
 export function generateGrid3(stats: UserStats): string {
-  const repos = stats.topRepos.slice(0, 3);
-  const renderRepo = (x: number, y: number, repo: any) => `
-    <g transform="translate(${x}, ${y})" class="float">
-      <rect width="300" height="100" fill="rgba(0,0,0,0.8)" stroke="#facc15" stroke-width="2" />
-      <text x="150" y="40" class="text-repo" text-anchor="middle">${repo.name.substring(0,20)}</text>
-      <text x="150" y="70" class="text-small" text-anchor="middle">⭐ ${repo.stars} | 🍴 ${repo.forks}</text>
-    </g>
-  `;
   return `
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
       ${getBackgroundImage('grid03')}
-      <text x="600" y="70" class="text-title" style="font-size: 60px;">CLASSIFIED EXPERIMENTS</text>
-      ${repos[0] ? renderRepo(100, 120, repos[0]) : ''}
-      ${repos[1] ? renderRepo(450, 120, repos[1]) : ''}
-      ${repos[2] ? renderRepo(800, 120, repos[2]) : ''}
     </svg>
   `;
 }
 
 // GRID 4: MORE REPOSITORIES (Background: Hawkins Van Jumping)
 export function generateGrid4(stats: UserStats): string {
-  const repos = stats.topRepos.slice(3, 6);
-  const renderRepo = (x: number, y: number, repo: any) => `
-    <g transform="translate(${x}, ${y})" class="float">
-      <rect width="280" height="80" fill="rgba(0,0,0,0.7)" stroke="#3b82f6" stroke-width="2" />
-      <text x="140" y="35" class="text-repo" fill="#60a5fa" text-anchor="middle">${repo.name.substring(0,18)}</text>
-      <text x="140" y="60" class="text-small" text-anchor="middle">⭐ ${repo.stars}</text>
-    </g>
-  `;
   return `
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
       ${getBackgroundImage('grid04')}
-      ${repos[0] ? renderRepo(800, 50, repos[0]) : ''}
-      ${repos[1] ? renderRepo(850, 150, repos[1]) : ''}
-      ${repos[2] ? renderRepo(800, 250, repos[2]) : ''}
     </svg>
   `;
 }
 
 // GRID 5: SKILLS & FRAMEWORKS (Background: Mind Flayer over School)
 export function generateGrid5(stats: UserStats): string {
-  const langs = Object.keys(stats.languages).slice(0, 5);
   return `
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
       ${getBackgroundImage('grid05')}
-      <g transform="translate(50, 250)">
-        <rect width="1100" height="100" fill="rgba(0,0,0,0.8)" stroke="#ef4444" stroke-width="3" />
-        <text x="550" y="40" class="text-title" style="font-size: 30px;">DETECTED ANOMALIES (LANGUAGES):</text>
-        <text x="550" y="80" class="text-body" fill="#facc15" text-anchor="middle">
-          ${langs.join(' // ')}
-        </text>
-      </g>
     </svg>
   `;
 }
@@ -176,12 +138,6 @@ export function generateGrid6(): string {
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
       ${getBackgroundImage('grid06')}
-      <g transform="translate(400, 150)">
-        <rect width="400" height="150" fill="rgba(0,0,0,0.8)" stroke="#3b82f6" stroke-width="2" />
-        <text x="200" y="50" class="text-title" fill="#60a5fa">CURRENT DIRECTIVE</text>
-        <text x="200" y="90" class="text-body" text-anchor="middle">PREPARING FOR</text>
-        <text x="200" y="130" class="text-title" fill="#ef4444">GATE 2027</text>
-      </g>
     </svg>
   `;
 }
@@ -192,13 +148,6 @@ export function generateGrid7(): string {
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
       ${getBackgroundImage('grid07')}
-      <g transform="translate(100, 50)">
-        <rect width="350" height="200" fill="rgba(0,0,0,0.7)" stroke="#22c55e" stroke-width="2" />
-        <text x="175" y="40" class="text-title" fill="#4ade80">SPECIALIZATIONS</text>
-        <text x="30" y="90" class="text-body">> MACHINE LEARNING</text>
-        <text x="30" y="130" class="text-body">> DEEP LEARNING (RAG)</text>
-        <text x="30" y="170" class="text-body">> PYTHON / TENSORFLOW</text>
-      </g>
     </svg>
   `;
 }
@@ -209,12 +158,6 @@ export function generateGrid8(): string {
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
       ${getBackgroundImage('grid08')}
-      <g transform="translate(700, 150)">
-        <rect width="450" height="150" fill="rgba(0,0,0,0.8)" stroke="#ef4444" stroke-width="3" />
-        <text x="225" y="50" class="text-title">ESTABLISH CONNECTION</text>
-        <text x="30" y="100" class="text-body">> LOCATION: HAWKINS / BENGALURU</text>
-        <text x="30" y="140" class="text-body">> STATUS: READY FOR BATTLE<tspan class="blink">_</tspan></text>
-      </g>
     </svg>
   `;
 }
