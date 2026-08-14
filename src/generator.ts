@@ -40,18 +40,54 @@ export function writeSvg(filename: string, content: string) {
 
 // GRID 1: HERO & CLEARANCE (Background: Painted Wall)
 export function generateGrid1(stats: UserStats): string {
+  const renderLight = (x: number, y: number, color: string, delay: number) => `
+    <circle cx="${x}" cy="${y}" r="8" fill="${color}" filter="url(#glow-${color.replace('#', '')})">
+      <animate attributeName="opacity" values="0.2; 1; 0.2" dur="${1.5 + Math.random()}s" begin="${delay}s" repeatCount="indefinite" />
+    </circle>
+  `;
+
   return `
     <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${getCommonStyles()}
+      <defs>
+        <filter id="glow-ff0000"><feGaussianBlur stdDeviation="6" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="glow-00ff00"><feGaussianBlur stdDeviation="6" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="glow-0000ff"><feGaussianBlur stdDeviation="6" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="glow-ffff00"><feGaussianBlur stdDeviation="6" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
       ${getBackgroundImage('grid01')}
       
-      <!-- Overlay box (Moved to bottom right so it doesn't cover the painted name) -->
-      <g transform="translate(680, 250)">
-        <rect width="480" height="130" fill="rgba(0,0,0,0.8)" stroke="#ef4444" stroke-width="3" rx="10" />
-        <text x="20" y="40" class="text-body">> CLASSIFICATION: AI/ML ENGINEER</text>
-        <text x="20" y="80" class="text-body">> CLEARANCE LEVEL: AI-07</text>
-        <text x="20" y="120" class="text-body">> TARGET: GATE 2027<tspan class="blink">_</tspan></text>
-      </g>
+      <!-- Animated Lights over the image bulbs -->
+      <!-- Top Row -->
+      ${renderLight(115, 65, '#ff0000', 0)}
+      ${renderLight(300, 85, '#0000ff', 0.5)}
+      ${renderLight(385, 95, '#00ff00', 1.2)}
+      ${renderLight(520, 70, '#ffff00', 0.2)}
+      ${renderLight(655, 85, '#ffff00', 0.8)}
+      ${renderLight(815, 95, '#ff0000', 0.1)}
+      ${renderLight(940, 105, '#0000ff', 0.6)}
+      ${renderLight(1100, 85, '#ffff00', 1.5)}
+      ${renderLight(1160, 80, '#ff0000', 0.3)}
+
+      <!-- Middle Row -->
+      ${renderLight(95, 195, '#ffff00', 0.7)}
+      ${renderLight(270, 200, '#00ff00', 1.1)}
+      ${renderLight(370, 210, '#ff0000', 0.4)}
+      ${renderLight(510, 215, '#0000ff', 0.9)}
+      ${renderLight(630, 220, '#ffff00', 1.3)}
+      ${renderLight(795, 215, '#0000ff', 0.2)}
+      ${renderLight(905, 220, '#ffff00', 0.8)}
+      ${renderLight(1115, 205, '#ff0000', 0.5)}
+
+      <!-- Bottom Row -->
+      ${renderLight(165, 305, '#ffff00', 1.4)}
+      ${renderLight(300, 315, '#0000ff', 0.3)}
+      ${renderLight(515, 315, '#ff0000', 0.6)}
+      ${renderLight(675, 320, '#00ff00', 1.0)}
+      ${renderLight(815, 315, '#ffff00', 0.1)}
+      ${renderLight(945, 325, '#ff0000', 1.2)}
+      ${renderLight(1075, 320, '#00ff00', 0.4)}
+      ${renderLight(1140, 310, '#ff0000', 0.9)}
     </svg>
   `;
 }
