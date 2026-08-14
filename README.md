@@ -2,12 +2,10 @@
 
 <div align="center">
   
-  <img src="./assets/generated/hero.svg" alt="Angry Dev Premium Hero" width="100%" style="display:block; margin:0; padding:0;">
-  <img src="./assets/generated/hud.svg" alt="Live Game HUD" width="100%" style="display:block; margin:0; padding:0;">
-  <img src="./assets/generated/campaign.svg" alt="Project Campaign" width="100%" style="display:block; margin:0; padding:0;">
-  <img src="./assets/generated/arsenal.svg" alt="Skill Arsenal" width="100%" style="display:block; margin:0; padding:0;">
-  <img src="./assets/generated/boss.svg" alt="Final Boss Encounter" width="100%" style="display:block; margin:0; padding:0;">
-  <img src="./assets/generated/achievements.svg" alt="Unlocked Achievements" width="100%" style="display:block; margin:0; padding:0;">
+  <img src="./assets/generated/sky-launch.svg" alt="Angry Dev Sky Launch" width="100%" style="display:block; margin:0; padding:0;">
+  <img src="./assets/generated/rolling-hills.svg" alt="Project Hills" width="100%" style="display:block; margin:0; padding:0;">
+  <img src="./assets/generated/underground-arsenal.svg" alt="Underground Skills" width="100%" style="display:block; margin:0; padding:0;">
+  <img src="./assets/generated/dungeon-boss.svg" alt="Final Boss Dungeon" width="100%" style="display:block; margin:0; padding:0;">
   
 </div>
 
